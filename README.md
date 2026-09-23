@@ -16,7 +16,11 @@ snippets Jev picked**. The viewer is a clinician's in-basket, so what you see is
 
 **Live demo:** https://stephonomon.github.io/inbasket-triage/ (a self-contained page with the results embedded; the browser makes no API calls)
 
-![The in-basket: folders by pool, messages sorted by acuity, a patient banner, AI triage fields with confidence on hover, and an editable AI draft](docs/inbasket.png)
+**Video walkthrough:** https://youtu.be/hMhzvX1LeGw
+
+[![Watch the walkthrough on YouTube. The in-basket: folders by pool, messages sorted by acuity, a patient banner, AI triage fields with confidence on hover, and an editable AI draft](docs/inbasket.png)](https://youtu.be/hMhzvX1LeGw)
+
+▶ [Watch Stephon walk through the demo on YouTube](https://youtu.be/hMhzvX1LeGw)
 
 > Everything here is fabricated. There are no real patients, messages, or clinicians, and Proctor Pediatrics is fictional.
 > The reference labels are one informaticist's judgment, not clinician-adjudicated. Nothing in this repository is
