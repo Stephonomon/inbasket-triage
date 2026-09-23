@@ -1,0 +1,6085 @@
+{
+ "run_at": "2026-09-22 18:50",
+ "jev_model": "jev-1.13.0",
+ "wall_s": 83.1,
+ "snip_threshold": 0.5,
+ "urgency": {
+  "high": "Needs a human today, within hours: symptoms that could be worsening or dangerous, a child out of a critical medication within 24-48 hours, or any safety concern",
+  "medium": "Should be handled within 1 business day: new but stable symptoms, a clinical question that affects care this week, results the family is worried about, a medication running out within a week",
+  "low": "Routine, 2-3 business days is fine: scheduling changes, forms, records, billing, thank-you notes, general questions with no active symptoms"
+ },
+ "categories": {
+  "rx_refill": "Asking for a refill, renewal, or prior authorization of an existing medication",
+  "medication_question": "Question about dosing, side effects, stopping, or safety of a medication or vaccine",
+  "new_symptom": "A new illness, injury, or symptom the family wants advice about",
+  "chronic_followup": "An update or question about a known chronic condition (asthma, diabetes, ADHD, depression, etc.)",
+  "test_results": "Question about a lab, imaging, or test result, or whether a result is back",
+  "scheduling": "Book, move, or cancel an appointment",
+  "forms_paperwork": "School, sports, camp, daycare, work, or medical-clearance forms and letters",
+  "referral": "Status or request for a specialist referral",
+  "billing_insurance": "Bills, charges, coverage, or insurance questions",
+  "records_request": "Send or release medical or immunization records",
+  "general_admin": "Thank-you notes, general practice questions, confidential-care access questions, anything else"
+ },
+ "owners": {
+  "nursing": "RN triage pool: symptom triage, protocol refills, dosing questions, results that are back and normal, prior authorizations",
+  "physician": "The child's PCP: clinical decisions, abnormal results, controlled substances, mental health, anything needing medical judgment beyond a nursing protocol",
+  "scheduling": "Scheduling pool: booking, moving, and cancelling visits",
+  "forms_desk": "Referrals & forms desk: forms, letters, records release, referral status",
+  "billing": "Billing office: charges, statements, insurance coverage"
+ },
+ "snippets": {
+  "med_list": "Active medication list with doses and last-fill dates",
+  "allergies": "Allergy and adverse-reaction list",
+  "recent_labs": "Resulted labs from the last 12 months with reference ranges",
+  "pending_results": "Ordered tests that have not resulted yet",
+  "problem_list": "Active problem list / chronic diagnoses",
+  "last_visit": "Summary and plan from the most recent visit",
+  "upcoming_appts": "Upcoming scheduled appointments",
+  "scheduling_rules": "Practice visit types, open-slot rules, same-day sick policy",
+  "immunizations": "Immunization record and what is due",
+  "forms_status": "Last well visit date and which forms are on file / can be completed without a visit",
+  "weight_dosing": "Most recent weight and weight-based acetaminophen/ibuprofen dosing table",
+  "refill_protocol": "Nursing refill protocol: which meds RNs may renew, controlled-substance rules, visit-required rules",
+  "referral_status": "Open referrals and where each is in the process",
+  "insurance_billing": "Coverage, copays, preventive-vs-sick billing rules, prior-auth process",
+  "triage_protocol": "Pediatric telephone triage red flags (call 911 / ED now / same-day) for the symptom mentioned",
+  "confidentiality": "Adolescent confidential-care rules: what proxies can see, confidential reply routing, state minor-consent rules"
+ },
+ "flags": {
+  "safety": "The message describes a possible emergency or safety risk that needs a phone call or 911/ED advice now, not a portal reply (breathing difficulty, blue lips, head injury with vomiting or sleepiness, suicidal thoughts, anaphylaxis, seizure).",
+  "multi_issue": "The message contains two or more distinct requests that would normally be handled by different people or workflows (for example a refill plus a form plus a new symptom).",
+  "confidential": "The message involves adolescent confidential care (sexual/reproductive health, mental health, substance use) or explicitly asks that a parent not be told.",
+  "frustrated": "The sender expresses frustration, anger, a complaint about the practice, repeated unanswered messages, or a threat to leave.",
+  "non_english": "The message is written mostly in a language other than English.",
+  "evisit": "The family is asking for new clinical evaluation and treatment advice for a non-urgent problem that a clinician could manage through the portal without a visit (a billable e-visit).",
+  "needs_reply": "The sender is asking a question or requesting an action that requires a response."
+ },
+ "patients": {
+  "liam": {
+   "name": "Liam Okafor",
+   "age": "9 y",
+   "sex": "M",
+   "weight_kg": 29.5,
+   "problems": [
+    "Persistent asthma, moderate"
+   ],
+   "meds": [
+    "Fluticasone HFA 110 mcg 2 puffs BID (last fill 2026-06-30, 30-day supply)",
+    "Albuterol HFA 90 mcg 2 puffs q4h PRN"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-07-15 asthma follow-up: well controlled on fluticasone, continue, recheck in 3 months.",
+   "appts": [
+    "2026-10-14 asthma follow-up, Dr. Patel"
+   ],
+   "imms": "Up to date for age.",
+   "forms": "Last well visit 2026-02-10. School asthma action plan on file.",
+   "referrals": []
+  },
+  "maya": {
+   "name": "Maya Chen",
+   "age": "4 mo",
+   "sex": "F",
+   "weight_kg": 6.4,
+   "problems": [
+    "Born at 36 weeks, otherwise healthy"
+   ],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-08-20 4-month well visit: normal exam, growing well.",
+   "appts": [],
+   "imms": "2-month and 4-month vaccines given.",
+   "forms": "",
+   "referrals": []
+  },
+  "ava": {
+   "name": "Ava Romano",
+   "age": "13 y",
+   "sex": "F",
+   "weight_kg": 46.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-03-12 well visit (sports physical completed, cleared for all sports).",
+   "appts": [],
+   "imms": "Tdap, MenACWY, HPV #1 given 2026-03-12. HPV #2 due.",
+   "forms": "Last well visit 2026-03-12 (within 12 months). PIAA sports form can be completed from this visit without a new appointment.",
+   "referrals": []
+  },
+  "noah": {
+   "name": "Noah Williams",
+   "age": "7 y",
+   "sex": "M",
+   "weight_kg": 23.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-09-10 sick visit: left otitis media, amoxicillin x10 days.",
+   "appts": [
+    "2026-09-24 3:00 pm follow-up (ear recheck), Dr. Lee"
+   ],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "ethan": {
+   "name": "Ethan Brooks",
+   "age": "2 y",
+   "sex": "M",
+   "weight_kg": 12.8,
+   "problems": [
+    "Iron deficiency (resolved)"
+   ],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [
+    "2026-09-15 Blood lead (venous) 6 mcg/dL (reference <3.5; CDC reference value 3.5)",
+    "2026-09-15 Hemoglobin 11.9 g/dL (ref 11.0-14.0)"
+   ],
+   "pending": [],
+   "last_visit": "2026-09-12 2-year well visit: routine lead screen ordered; family recently moved to a rowhouse built in 1920.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "jordan": {
+   "name": "Jordan Diaz",
+   "age": "16 y",
+   "sex": "NB",
+   "weight_kg": 58.0,
+   "problems": [
+    "Major depressive disorder, moderate",
+    "Generalized anxiety"
+   ],
+   "meds": [
+    "Sertraline 50 mg daily (started 2026-08-25)"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-08-25 behavioral health visit (confidential): PHQ-9 16, no SI at that time, started sertraline, safety plan reviewed, follow-up 4 weeks.",
+   "appts": [
+    "2026-09-29 follow-up, Dr. Patel"
+   ],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "chloe": {
+   "name": "Chloe Martin",
+   "age": "6 y",
+   "sex": "F",
+   "weight_kg": 20.5,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-09-02 sick visit plus flu vaccine given same visit.",
+   "appts": [],
+   "imms": "Influenza 2026-09-02.",
+   "forms": "",
+   "referrals": []
+  },
+  "sophia": {
+   "name": "Sophia Nguyen",
+   "age": "5 y",
+   "sex": "F",
+   "weight_kg": 18.2,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "Penicillin (hives, 2023)"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-05-01 well visit, healthy.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "leo": {
+   "name": "Leo Garcia",
+   "age": "2 y",
+   "sex": "M",
+   "weight_kg": 12.7,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-09-05 2-year well visit, healthy.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "olivia": {
+   "name": "Olivia Park",
+   "age": "10 y",
+   "sex": "F",
+   "weight_kg": 32.0,
+   "problems": [
+    "ADHD, combined type"
+   ],
+   "meds": [
+    "Dexmethylphenidate XR (Focalin XR) 10 mg every morning (last fill 2026-08-24)"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-06-02 ADHD follow-up: good response, appetite mildly down, weight stable. Next check 3 months.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "School medication administration form last signed 2025-09-01 (expired).",
+   "referrals": []
+  },
+  "zara": {
+   "name": "Zara Ahmed",
+   "age": "11 y",
+   "sex": "F",
+   "weight_kg": 36.0,
+   "problems": [
+    "Chronic abdominal pain, suspected celiac"
+   ],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [
+    "2026-08-01 tTG-IgA 48 U/mL (ref <15)"
+   ],
+   "pending": [],
+   "last_visit": "2026-08-14: elevated tTG, referred to GI.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": [
+    "Pediatric GI, placed 2026-08-14; status: awaiting prior authorization from insurer since 2026-08-20; family not yet contacted"
+   ]
+  },
+  "mia": {
+   "name": "Mia Johnson",
+   "age": "3 y",
+   "sex": "F",
+   "weight_kg": 14.5,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "",
+   "appts": [],
+   "imms": "Up to date: DTaP x4, IPV x3, MMR #1, Varicella #1, HepA x2, HepB x3, Hib x4, PCV x4, influenza 2025.",
+   "forms": "Immunization certificate can be released to daycare with a signed parent release on file (release signed 2026-01-05).",
+   "referrals": []
+  },
+  "jack": {
+   "name": "Jack Rivera",
+   "age": "8 y",
+   "sex": "M",
+   "weight_kg": 26.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-09-14 sick visit with Dr. Patel: influenza A, supportive care.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "mateo": {
+   "name": "Mateo Hernandez",
+   "age": "4 y",
+   "sex": "M",
+   "weight_kg": 16.8,
+   "problems": [
+    "Reactive airway disease (2 prior wheezing episodes)"
+   ],
+   "meds": [
+    "Albuterol HFA 90 mcg PRN (last fill 2025-11-02)"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2025-11-02 sick visit: wheezing with viral illness, albuterol given.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "zoe": {
+   "name": "Zoe Thompson",
+   "age": "3 y",
+   "sex": "F",
+   "weight_kg": 14.0,
+   "problems": [],
+   "meds": [
+    "Amoxicillin 90 mg/kg/day divided BID x10 days (started 2026-09-18)"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-09-18 sick visit: right acute otitis media, amoxicillin started.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "sam": {
+   "name": "Sam Patel",
+   "age": "14 y",
+   "sex": "M",
+   "weight_kg": 50.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-04-10 well visit.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "aiden": {
+   "name": "Aiden Kowalski",
+   "age": "12 y",
+   "sex": "M",
+   "weight_kg": 40.0,
+   "problems": [
+    "Moderate-to-severe atopic dermatitis"
+   ],
+   "meds": [
+    "Dupilumab 300 mg SC every 4 weeks (last dose 2026-08-27; prior auth expires 2026-09-30)"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-07-20 dermatology co-management visit: skin clear, continue dupilumab.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "riley": {
+   "name": "Riley Evans",
+   "age": "17 y",
+   "sex": "F",
+   "weight_kg": 60.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-01-15 well visit (confidential portion documented separately).",
+   "appts": [],
+   "imms": "Up to date.",
+   "forms": "",
+   "referrals": []
+  },
+  "carter": {
+   "name": "Carter Lewis",
+   "age": "11 y",
+   "sex": "M",
+   "weight_kg": 38.0,
+   "problems": [
+    "Type 1 diabetes (dx 2024)"
+   ],
+   "meds": [
+    "Insulin glargine 14 units nightly",
+    "Insulin lispro per carb ratio 1:12, correction 1 unit per 50 over 150",
+    "Ketone strips"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [
+    "2026-07-02 HbA1c 8.4%"
+   ],
+   "pending": [],
+   "last_visit": "2026-07-02 diabetes visit with endocrine co-management; sick-day rules reviewed.",
+   "appts": [
+    "2026-10-02 endocrinology"
+   ],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "harper": {
+   "name": "Harper Scott",
+   "age": "3 y 11 mo",
+   "sex": "F",
+   "weight_kg": 16.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2025-10-01 3-year well visit.",
+   "appts": [],
+   "imms": "Due at 4 years: DTaP #5, IPV #4, MMR #2, Varicella #2. Influenza due.",
+   "forms": "Pre-K health form requires a well visit within 12 months (last one 2025-10-01, expiring).",
+   "referrals": []
+  },
+  "ella": {
+   "name": "Ella Wright",
+   "age": "8 y",
+   "sex": "F",
+   "weight_kg": 25.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [
+    "2026-09-19 Rapid strep negative"
+   ],
+   "pending": [
+    "2026-09-19 Throat culture (ordered, expected 48-72 h)"
+   ],
+   "last_visit": "2026-09-19 sick visit: sore throat, rapid strep negative, culture sent.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "eli": {
+   "name": "Eli Morgan",
+   "age": "3 y",
+   "sex": "M",
+   "weight_kg": 15.0,
+   "problems": [
+    "Recurrent otitis media (6 episodes in 12 months)"
+   ],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-08-15 sick visit: otitis media.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "Pre-op clearance requires PCP review; no visit needed if seen in last 30 days (last visit 2026-08-15 is 38 days ago).",
+   "referrals": [
+    "ENT: seen 2026-08-28, tympanostomy tubes scheduled 2026-10-06; ENT requests pre-op clearance letter from PCP (received 2026-09-02)"
+   ]
+  },
+  "grace": {
+   "name": "Grace Kim",
+   "age": "5 y",
+   "sex": "F",
+   "weight_kg": 18.5,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-09-21 telehealth sick visit: viral gastroenteritis, home care.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "owen": {
+   "name": "Owen Baker",
+   "age": "5 y",
+   "sex": "M",
+   "weight_kg": 19.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-05-20 well visit, healthy.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "lucas": {
+   "name": "Lucas Hill",
+   "age": "6 y",
+   "sex": "M",
+   "weight_kg": 21.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-02-02 well visit.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "isla": {
+   "name": "Isla Adams",
+   "age": "18 mo",
+   "sex": "F",
+   "weight_kg": 10.8,
+   "problems": [
+    "Iron deficiency anemia"
+   ],
+   "meds": [
+    "Ferrous sulfate 15 mg elemental iron daily (started 2026-06-10, planned 3 months)"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [
+    "2026-06-08 Hemoglobin 9.6 g/dL (ref 10.5-13.5)",
+    "2026-09-16 Hemoglobin 11.8 g/dL (ref 10.5-13.5)",
+    "2026-09-16 Ferritin 14 ng/mL (ref 12-150)"
+   ],
+   "pending": [],
+   "last_visit": "2026-06-10: iron deficiency anemia, iron x3 months then recheck; plan to continue 1-2 months after Hb normalizes to replete stores.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "ruby": {
+   "name": "Ruby Collins",
+   "age": "12 mo",
+   "sex": "F",
+   "weight_kg": 9.5,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-06-20 9-month well visit. Household: brother (6 y) on chemotherapy for ALL.",
+   "appts": [
+    "2026-09-30 12-month well visit"
+   ],
+   "imms": "MMR #1 and Varicella #1 due now (12-month vaccines).",
+   "forms": "",
+   "referrals": []
+  },
+  "bao": {
+   "name": "Bao Tran",
+   "age": "6 y",
+   "sex": "M",
+   "weight_kg": 20.0,
+   "problems": [],
+   "meds": [],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-04-02 well visit, healthy.",
+   "appts": [],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  },
+  "henry": {
+   "name": "Henry Price",
+   "age": "9 y",
+   "sex": "M",
+   "weight_kg": 30.0,
+   "problems": [
+    "Persistent asthma, moderate"
+   ],
+   "meds": [
+    "Budesonide-formoterol 80/4.5 2 puffs BID (started 2026-07-01)",
+    "Albuterol HFA PRN"
+   ],
+   "allergies": [
+    "NKDA"
+   ],
+   "labs": [],
+   "pending": [],
+   "last_visit": "2026-07-01: step-up to budesonide-formoterol, follow-up in 3 months to consider step-down.",
+   "appts": [
+    "2026-10-08 asthma follow-up, Dr. Nguyen"
+   ],
+   "imms": "Up to date for age.",
+   "forms": "",
+   "referrals": []
+  }
+ },
+ "n_questions": 26,
+ "messages": [
+  {
+   "id": "M01",
+   "patient": "liam",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Hi, can you send a refill for Liam's Flovent? He only has a couple puffs left and we leave for my mom's on Friday. CVS on Main St. Thanks!",
+   "seed": {
+    "urgency": "medium",
+    "category": "rx_refill",
+    "owner": "nursing",
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 0.27,
+     "p": {
+      "medium": 0.48,
+      "low": 0.01,
+      "high": 0.51
+     }
+    },
+    "category": {
+     "choice": "rx_refill",
+     "confidence": 1.0,
+     "p": {
+      "forms_paperwork": 0.0,
+      "test_results": 0.0,
+      "chronic_followup": 0.0,
+      "billing_insurance": 0.0,
+      "new_symptom": 0.0,
+      "medication_question": 0.0,
+      "referral": 0.0,
+      "rx_refill": 1.0,
+      "records_request": 0.0,
+      "scheduling": 0.0,
+      "general_admin": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.99,
+     "p": {
+      "billing": 0.0,
+      "nursing": 0.99,
+      "scheduling": 0.0,
+      "physician": 0.01,
+      "forms_desk": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.92,
+     "allergies": 0.43,
+     "recent_labs": 0.04,
+     "pending_results": 0.04,
+     "problem_list": 0.44,
+     "last_visit": 0.58,
+     "upcoming_appts": 0.15,
+     "scheduling_rules": 0.11,
+     "immunizations": 0.06,
+     "forms_status": 0.38,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.81,
+     "referral_status": 0.11,
+     "insurance_billing": 0.16,
+     "triage_protocol": 0.48,
+     "confidentiality": 0.16
+    },
+    "flags": {
+     "safety": 0.04,
+     "multi_issue": 0.08,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.04,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3465,
+     "output": 672
+    },
+    "latency_s": 0.38,
+    "language": {
+     "choice": "english",
+     "p": {
+      "spanish": 0.0,
+      "chinese": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "vietnamese": 0.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.72
+    },
+    "category": {
+     "value": "rx_refill",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3054,
+     "output": 154
+    },
+    "latency_s": 2.42
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "rx_refill",
+     "confidence": 0.99
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.88
+    },
+    "snippets": [
+     "allergies",
+     "med_list",
+     "refill_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2346,
+     "output": 107
+    },
+    "latency_s": 1.79
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! Thanks for letting us know, and good timing before your trip.\n\nLiam was seen for his asthma check on July 15, 2026, so we can renew his Flovent (fluticasone 110 mcg, 2 puffs twice a day) under our refill protocol. We're sending a 90-day supply to the CVS on Main St. Pharmacies usually have it ready within one business day, but please call ahead before Friday to be sure it's filled.\n\nA quick reminder: take his albuterol inhaler along on the trip too, in case he needs it.\n\nIf Liam runs out before the refill is ready, or if he starts coughing, wheezing, or needs albuterol more often, please call us right away.\n\nSafe travels!\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "med_list",
+     "last_visit",
+     "refill_protocol"
+    ],
+    "usage": {
+     "input": 760,
+     "output": 293
+    },
+    "all_snippets_input": 1902,
+    "latency_s": 4.53
+   }
+  },
+  {
+   "id": "M02",
+   "patient": "maya",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Maya has been breathing really fast since this morning and it looks like her ribs are sucking in. When she coughs her lips look a little blue. She's 4 months. Is this something to worry about or should we wait for our appointment?",
+   "seed": {
+    "urgency": "high",
+    "category": "new_symptom",
+    "owner": "nursing",
+    "snippets": [
+     "problem_list",
+     "triage_protocol"
+    ],
+    "safety": true,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 1.0,
+     "p": {
+      "medium": 0.0,
+      "high": 1.0,
+      "low": 0.0
+     }
+    },
+    "category": {
+     "choice": "new_symptom",
+     "confidence": 1.0,
+     "p": {
+      "billing_insurance": 0.0,
+      "test_results": 0.0,
+      "records_request": 0.0,
+      "new_symptom": 1.0,
+      "medication_question": 0.0,
+      "scheduling": 0.0,
+      "general_admin": 0.0,
+      "rx_refill": 0.0,
+      "chronic_followup": 0.0,
+      "referral": 0.0,
+      "forms_paperwork": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.82,
+     "p": {
+      "scheduling": 0.0,
+      "nursing": 0.85,
+      "forms_desk": 0.0,
+      "physician": 0.15,
+      "billing": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.06,
+     "allergies": 0.07,
+     "recent_labs": 0.03,
+     "pending_results": 0.05,
+     "problem_list": 0.1,
+     "last_visit": 0.11,
+     "upcoming_appts": 0.09,
+     "scheduling_rules": 0.22,
+     "immunizations": 0.04,
+     "forms_status": 0.09,
+     "weight_dosing": 0.04,
+     "refill_protocol": 0.03,
+     "referral_status": 0.05,
+     "insurance_billing": 0.05,
+     "triage_protocol": 0.93,
+     "confidentiality": 0.04
+    },
+    "flags": {
+     "safety": 0.98,
+     "multi_issue": 0.05,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.03,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3427,
+     "output": 672
+    },
+    "latency_s": 0.33,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "vietnamese": 0.0,
+      "arabic": 0.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "english": 1.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.99
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.97
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.72
+    },
+    "snippets": [
+     "last_visit",
+     "problem_list",
+     "triage_protocol",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3007,
+     "output": 157
+    },
+    "latency_s": 3.04
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.98
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.99
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.99
+    },
+    "snippets": [
+     "recent_labs",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2298,
+     "output": 104
+    },
+    "latency_s": 1.91
+   },
+   "action": "phone_now",
+   "draft": null
+  },
+  {
+   "id": "M03",
+   "patient": "ava",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Hello, Ava needs the PIAA sports form signed for soccer tryouts on Oct 15. She had her physical with you in March. Can I drop the form off or do you need to see her again?",
+   "seed": {
+    "urgency": "low",
+    "category": "forms_paperwork",
+    "owner": "forms_desk",
+    "snippets": [
+     "forms_status",
+     "immunizations"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 1.0,
+     "p": {
+      "low": 1.0,
+      "high": 0.0,
+      "medium": 0.0
+     }
+    },
+    "category": {
+     "choice": "forms_paperwork",
+     "confidence": 1.0,
+     "p": {
+      "new_symptom": 0.0,
+      "billing_insurance": 0.0,
+      "medication_question": 0.0,
+      "scheduling": 0.0,
+      "general_admin": 0.0,
+      "records_request": 0.0,
+      "rx_refill": 0.0,
+      "chronic_followup": 0.0,
+      "forms_paperwork": 1.0,
+      "referral": 0.0,
+      "test_results": 0.0
+     }
+    },
+    "owner": {
+     "choice": "forms_desk",
+     "confidence": 0.75,
+     "p": {
+      "physician": 0.02,
+      "nursing": 0.18,
+      "billing": 0.0,
+      "forms_desk": 0.8,
+      "scheduling": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.04,
+     "allergies": 0.22,
+     "recent_labs": 0.03,
+     "pending_results": 0.04,
+     "problem_list": 0.21,
+     "last_visit": 0.61,
+     "upcoming_appts": 0.19,
+     "scheduling_rules": 0.19,
+     "immunizations": 0.27,
+     "forms_status": 0.88,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.03,
+     "referral_status": 0.12,
+     "insurance_billing": 0.09,
+     "triage_protocol": 0.02,
+     "confidentiality": 0.3
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.06,
+     "confidential": 0.02,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.06,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3412,
+     "output": 673
+    },
+    "latency_s": 0.38,
+    "language": {
+     "choice": "english",
+     "p": {
+      "haitian_creole": 0.0,
+      "vietnamese": 0.0,
+      "other": 0.0,
+      "russian": 0.0,
+      "chinese": 0.0,
+      "arabic": 0.0,
+      "spanish": 0.0,
+      "english": 1.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.94
+    },
+    "category": {
+     "value": "forms_paperwork",
+     "confidence": 0.96
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.9
+    },
+    "snippets": [
+     "forms_status",
+     "last_visit",
+     "scheduling_rules"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2981,
+     "output": 154
+    },
+    "latency_s": 2.53
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "forms_paperwork",
+     "confidence": 0.98
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.9
+    },
+    "snippets": [
+     "forms_status",
+     "last_visit"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2283,
+     "output": 105
+    },
+    "latency_s": 1.41
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hello,\n\nGood news \u2014 Ava does not need another visit. Her well visit on March 12, 2026 included a sports physical, and she was cleared for all sports. That visit is within the past 12 months, so we can complete the PIAA form from it.\n\nYou're welcome to drop the form off at the front desk, or you can send it through the portal if that's easier. Please include any pages the school needs signed, and let us know the October 15 tryout date on the form so we can prioritize it.\n\nOnce it's ready, we'll call or message you to pick it up, or we can fax it to the school if you give us the number.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "last_visit",
+     "forms_status"
+    ],
+    "usage": {
+     "input": 517,
+     "output": 201
+    },
+    "all_snippets_input": 1853,
+    "latency_s": 3.56
+   }
+  },
+  {
+   "id": "M04",
+   "patient": "noah",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Can we move Noah's Thursday 3pm appointment to sometime next week? Anytime after 3:30 works since he has school.",
+   "seed": {
+    "urgency": "low",
+    "category": "scheduling",
+    "owner": "scheduling",
+    "snippets": [
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 1.0,
+     "p": {
+      "low": 1.0,
+      "high": 0.0,
+      "medium": 0.0
+     }
+    },
+    "category": {
+     "choice": "scheduling",
+     "confidence": 1.0,
+     "p": {
+      "billing_insurance": 0.0,
+      "forms_paperwork": 0.0,
+      "scheduling": 1.0,
+      "test_results": 0.0,
+      "rx_refill": 0.0,
+      "general_admin": 0.0,
+      "referral": 0.0,
+      "medication_question": 0.0,
+      "new_symptom": 0.0,
+      "chronic_followup": 0.0,
+      "records_request": 0.0
+     }
+    },
+    "owner": {
+     "choice": "scheduling",
+     "confidence": 1.0,
+     "p": {
+      "forms_desk": 0.0,
+      "billing": 0.0,
+      "physician": 0.0,
+      "nursing": 0.0,
+      "scheduling": 1.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.03,
+     "allergies": 0.03,
+     "recent_labs": 0.02,
+     "pending_results": 0.04,
+     "problem_list": 0.05,
+     "last_visit": 0.06,
+     "upcoming_appts": 0.92,
+     "scheduling_rules": 0.25,
+     "immunizations": 0.04,
+     "forms_status": 0.08,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.02,
+     "referral_status": 0.05,
+     "insurance_billing": 0.07,
+     "triage_protocol": 0.02,
+     "confidentiality": 0.06
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.03,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.01,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3396,
+     "output": 670
+    },
+    "latency_s": 0.38,
+    "language": {
+     "choice": "english",
+     "p": {
+      "russian": 0.0,
+      "haitian_creole": 0.0,
+      "arabic": 0.0,
+      "vietnamese": 0.0,
+      "english": 1.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "chinese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.96
+    },
+    "category": {
+     "value": "scheduling",
+     "confidence": 0.97
+    },
+    "owner": {
+     "value": "scheduling",
+     "confidence": 0.96
+    },
+    "snippets": [
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2962,
+     "output": 148
+    },
+    "latency_s": 2.42
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "scheduling",
+     "confidence": 0.98
+    },
+    "owner": {
+     "value": "scheduling",
+     "confidence": 0.98
+    },
+    "snippets": [
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2267,
+     "output": 101
+    },
+    "latency_s": 1.3
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! Thanks for letting us know about Noah's schedule.\n\nWe can look at moving his ear recheck with Dr. Lee from Thursday, September 24 at 3:00 pm to a day next week, after 3:30 pm. Our scheduling team will check Dr. Lee's open times for that week and reach out with a couple of options for you to choose from.\n\nPlease keep the current Thursday appointment on your calendar until we confirm the new one, so Noah doesn't miss his recheck. If none of the times we offer work, just let us know and we'll keep looking.\n\nThanks for your patience!\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "upcoming_appts"
+    ],
+    "usage": {
+     "input": 453,
+     "output": 207
+    },
+    "all_snippets_input": 1797,
+    "latency_s": 3.11
+   }
+  },
+  {
+   "id": "M05",
+   "patient": "ethan",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "I saw Ethan's lead test came back in MyChart as 6. It has a little flag next to it. Is that bad?? What are we supposed to do? We just moved into an old house.",
+   "seed": {
+    "urgency": "medium",
+    "category": "test_results",
+    "owner": "physician",
+    "snippets": [
+     "last_visit",
+     "problem_list",
+     "recent_labs"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.56,
+     "p": {
+      "medium": 0.71,
+      "high": 0.29,
+      "low": 0.0
+     }
+    },
+    "category": {
+     "choice": "test_results",
+     "confidence": 1.0,
+     "p": {
+      "referral": 0.0,
+      "chronic_followup": 0.0,
+      "test_results": 1.0,
+      "rx_refill": 0.0,
+      "medication_question": 0.0,
+      "records_request": 0.0,
+      "forms_paperwork": 0.0,
+      "scheduling": 0.0,
+      "general_admin": 0.0,
+      "new_symptom": 0.0,
+      "billing_insurance": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.72,
+     "p": {
+      "nursing": 0.77,
+      "forms_desk": 0.0,
+      "billing": 0.0,
+      "scheduling": 0.0,
+      "physician": 0.23
+     }
+    },
+    "snippets": {
+     "med_list": 0.07,
+     "allergies": 0.07,
+     "recent_labs": 0.58,
+     "pending_results": 0.09,
+     "problem_list": 0.21,
+     "last_visit": 0.57,
+     "upcoming_appts": 0.12,
+     "scheduling_rules": 0.14,
+     "immunizations": 0.09,
+     "forms_status": 0.32,
+     "weight_dosing": 0.03,
+     "refill_protocol": 0.04,
+     "referral_status": 0.21,
+     "insurance_billing": 0.07,
+     "triage_protocol": 0.24,
+     "confidentiality": 0.08
+    },
+    "flags": {
+     "safety": 0.04,
+     "multi_issue": 0.12,
+     "confidential": 0.01,
+     "frustrated": 0.04,
+     "non_english": 0.01,
+     "evisit": 0.47,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3413,
+     "output": 671
+    },
+    "latency_s": 0.38,
+    "language": {
+     "choice": "english",
+     "p": {
+      "spanish": 0.0,
+      "chinese": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "vietnamese": 0.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.82
+    },
+    "category": {
+     "value": "test_results",
+     "confidence": 0.94
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.6
+    },
+    "snippets": [
+     "last_visit",
+     "problem_list",
+     "recent_labs"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2987,
+     "output": 147
+    },
+    "latency_s": 2.45
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "test_results",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "last_visit",
+     "recent_labs"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2287,
+     "output": 118
+    },
+    "latency_s": 1.4
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thank you for reaching out \u2014 I can hear the worry, and it's a good question.\n\nEthan's lead level is 6 mcg/dL. The flag just means it's above the reference value of 3.5. This is not an emergency, and levels in this range usually do not cause symptoms. Most kids do well once the lead source is found and removed. His blood count (hemoglobin 11.9) was normal.\n\nThe main next steps are finding where the lead is coming from and rechecking his level. Homes built before 1978, like your 1920 rowhouse, can have lead paint or dust, especially near windows, doors, and peeling paint. Foods with iron, calcium, and vitamin C can also help.\n\nOur nurse will contact you to set up repeat testing and share home safety and health department resources.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "recent_labs",
+     "last_visit"
+    ],
+    "usage": {
+     "input": 573,
+     "output": 329
+    },
+    "all_snippets_input": 1880,
+    "latency_s": 5.76
+   }
+  },
+  {
+   "id": "M06",
+   "patient": "jordan",
+   "sender": "Patient (adolescent's own confidential account)",
+   "text": "honestly i dont really see the point anymore. the new med isnt helping and ive been thinking it would be easier for everyone if i just wasnt here. please dont tell my mom",
+   "seed": {
+    "urgency": "high",
+    "category": "chronic_followup",
+    "owner": "physician",
+    "snippets": [
+     "confidentiality",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "triage_protocol"
+    ],
+    "safety": true,
+    "multi_issue": false,
+    "confidential": true,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 1.0,
+     "p": {
+      "high": 1.0,
+      "medium": 0.0,
+      "low": 0.0
+     }
+    },
+    "category": {
+     "choice": "chronic_followup",
+     "confidence": 0.45,
+     "p": {
+      "scheduling": 0.0,
+      "new_symptom": 0.44,
+      "referral": 0.0,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.05,
+      "records_request": 0.0,
+      "billing_insurance": 0.0,
+      "test_results": 0.0,
+      "rx_refill": 0.0,
+      "medication_question": 0.0,
+      "chronic_followup": 0.51
+     }
+    },
+    "owner": {
+     "choice": "physician",
+     "confidence": 0.45,
+     "p": {
+      "nursing": 0.44,
+      "billing": 0.0,
+      "forms_desk": 0.0,
+      "physician": 0.56,
+      "scheduling": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.24,
+     "allergies": 0.11,
+     "recent_labs": 0.04,
+     "pending_results": 0.04,
+     "problem_list": 0.39,
+     "last_visit": 0.34,
+     "upcoming_appts": 0.14,
+     "scheduling_rules": 0.08,
+     "immunizations": 0.03,
+     "forms_status": 0.2,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.07,
+     "referral_status": 0.13,
+     "insurance_billing": 0.04,
+     "triage_protocol": 0.82,
+     "confidentiality": 0.87
+    },
+    "flags": {
+     "safety": 0.98,
+     "multi_issue": 0.23,
+     "confidential": 0.99,
+     "frustrated": 0.22,
+     "non_english": 0.01,
+     "evisit": 0.02,
+     "needs_reply": 0.97
+    },
+    "usage": {
+     "input": 3436,
+     "output": 675
+    },
+    "latency_s": 0.34,
+    "language": {
+     "choice": "english",
+     "p": {
+      "spanish": 0.0,
+      "vietnamese": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "chinese": 0.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.98
+    },
+    "category": {
+     "value": "chronic_followup",
+     "confidence": 0.6
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.88
+    },
+    "snippets": [
+     "confidentiality",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": true,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3018,
+     "output": 221
+    },
+    "latency_s": 3.15
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.99
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.85
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.98
+    },
+    "snippets": [
+     "confidentiality",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": true,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2306,
+     "output": 135
+    },
+    "latency_s": 1.61
+   },
+   "action": "phone_now",
+   "draft": null
+  },
+  {
+   "id": "M07",
+   "patient": "chloe",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "We got a bill for $240 from the Sept 2 visit. I thought the flu shot was free with our insurance?? Can someone please look at this.",
+   "seed": {
+    "urgency": "low",
+    "category": "billing_insurance",
+    "owner": "billing",
+    "snippets": [
+     "immunizations",
+     "insurance_billing",
+     "last_visit"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 1.0,
+     "p": {
+      "high": 0.0,
+      "low": 1.0,
+      "medium": 0.0
+     }
+    },
+    "category": {
+     "choice": "billing_insurance",
+     "confidence": 1.0,
+     "p": {
+      "billing_insurance": 1.0,
+      "scheduling": 0.0,
+      "chronic_followup": 0.0,
+      "medication_question": 0.0,
+      "records_request": 0.0,
+      "referral": 0.0,
+      "rx_refill": 0.0,
+      "test_results": 0.0,
+      "new_symptom": 0.0,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.0
+     }
+    },
+    "owner": {
+     "choice": "billing",
+     "confidence": 1.0,
+     "p": {
+      "nursing": 0.0,
+      "forms_desk": 0.0,
+      "billing": 1.0,
+      "scheduling": 0.0,
+      "physician": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.03,
+     "allergies": 0.06,
+     "recent_labs": 0.02,
+     "pending_results": 0.03,
+     "problem_list": 0.07,
+     "last_visit": 0.51,
+     "upcoming_appts": 0.05,
+     "scheduling_rules": 0.1,
+     "immunizations": 0.59,
+     "forms_status": 0.09,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.03,
+     "referral_status": 0.04,
+     "insurance_billing": 0.83,
+     "triage_protocol": 0.02,
+     "confidentiality": 0.06
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.05,
+     "confidential": 0.01,
+     "frustrated": 0.26,
+     "non_english": 0.01,
+     "evisit": 0.02,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3401,
+     "output": 671
+    },
+    "latency_s": 0.35,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "vietnamese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.94
+    },
+    "category": {
+     "value": "billing_insurance",
+     "confidence": 0.96
+    },
+    "owner": {
+     "value": "billing",
+     "confidence": 0.95
+    },
+    "snippets": [
+     "insurance_billing",
+     "last_visit"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2966,
+     "output": 144
+    },
+    "latency_s": 3.58
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "billing_insurance",
+     "confidence": 0.98
+    },
+    "owner": {
+     "value": "billing",
+     "confidence": 0.97
+    },
+    "snippets": [
+     "insurance_billing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2272,
+     "output": 113
+    },
+    "latency_s": 1.67
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Thank you for reaching out, and I'm sorry for the confusion about the bill.\n\nHere's what I can share: Chloe's September 2 visit was a sick visit, and she also got her flu shot that day. Routine vaccines like the flu shot are usually covered at 100% by most plans. But when a sick problem is addressed, a separate office-visit charge may apply. That may be part of what you're seeing.\n\nI can't confirm what the $240 covers without a closer look. Our billing office will review the charge and how your plan processed it. Reviews are completed within 10 business days, and someone will contact you with what we find.\n\nYou don't need to pay anything while the review is open. Please reply here if you have questions.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "last_visit",
+     "immunizations",
+     "insurance_billing"
+    ],
+    "usage": {
+     "input": 647,
+     "output": 238
+    },
+    "all_snippets_input": 1776,
+    "latency_s": 4.02
+   }
+  },
+  {
+   "id": "M08",
+   "patient": "sophia",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Sophia has had a fever up to 102.5 for 3 days now. Motrin brings it down and she's drinking OK but today she says her ear really hurts. Should we bring her in?",
+   "seed": {
+    "urgency": "high",
+    "category": "new_symptom",
+    "owner": "nursing",
+    "snippets": [
+     "allergies",
+     "scheduling_rules",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 0.52,
+     "p": {
+      "high": 0.68,
+      "medium": 0.32,
+      "low": 0.0
+     }
+    },
+    "category": {
+     "choice": "new_symptom",
+     "confidence": 0.99,
+     "p": {
+      "test_results": 0.0,
+      "medication_question": 0.0,
+      "scheduling": 0.01,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.0,
+      "rx_refill": 0.0,
+      "chronic_followup": 0.0,
+      "referral": 0.0,
+      "billing_insurance": 0.0,
+      "records_request": 0.0,
+      "new_symptom": 0.99
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.98,
+     "p": {
+      "physician": 0.01,
+      "scheduling": 0.0,
+      "billing": 0.0,
+      "forms_desk": 0.0,
+      "nursing": 0.99
+     }
+    },
+    "snippets": {
+     "med_list": 0.15,
+     "allergies": 0.37,
+     "recent_labs": 0.03,
+     "pending_results": 0.06,
+     "problem_list": 0.14,
+     "last_visit": 0.15,
+     "upcoming_appts": 0.15,
+     "scheduling_rules": 0.51,
+     "immunizations": 0.06,
+     "forms_status": 0.17,
+     "weight_dosing": 0.19,
+     "refill_protocol": 0.06,
+     "referral_status": 0.06,
+     "insurance_billing": 0.09,
+     "triage_protocol": 0.89,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.04,
+     "multi_issue": 0.06,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.24,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3413,
+     "output": 672
+    },
+    "latency_s": 0.36,
+    "language": {
+     "choice": "english",
+     "p": {
+      "haitian_creole": 0.0,
+      "spanish": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "other": 0.0,
+      "vietnamese": 0.0,
+      "chinese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.6
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.94
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "scheduling_rules",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2979,
+     "output": 163
+    },
+    "latency_s": 2.77
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.88
+    },
+    "snippets": [
+     "scheduling_rules",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2284,
+     "output": 109
+    },
+    "latency_s": 1.58
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thank you for letting us know about Sophia.\n\nA fever lasting 3 days along with new ear pain does need to be checked today. A nurse will call you within the next hour to go over her symptoms and get her into a same-day sick visit. We hold these morning appointment slots open for situations just like this one.\n\nWhile you wait for our call, you can keep giving Motrin as directed on the package for her age and weight, and keep offering fluids often. It's a good sign that she is drinking well.\n\nPlease call us right away, or call 911, if Sophia has trouble breathing, becomes very hard to wake, or stops drinking.\n\nWe'll talk with you soon.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "scheduling_rules",
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 838,
+     "output": 262
+    },
+    "all_snippets_input": 1787,
+    "latency_s": 4.31
+   }
+  },
+  {
+   "id": "M09",
+   "patient": "leo",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "How much children's Tylenol can I give Leo? He just turned 2 and weighs about 28 lbs. The box says to ask a doctor for under 2 so I wasn't sure.",
+   "seed": {
+    "urgency": "low",
+    "category": "medication_question",
+    "owner": "nursing",
+    "snippets": [
+     "allergies",
+     "med_list",
+     "weight_dosing"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 0.3,
+     "p": {
+      "low": 0.53,
+      "medium": 0.45,
+      "high": 0.02
+     }
+    },
+    "category": {
+     "choice": "medication_question",
+     "confidence": 1.0,
+     "p": {
+      "billing_insurance": 0.0,
+      "forms_paperwork": 0.0,
+      "records_request": 0.0,
+      "new_symptom": 0.0,
+      "test_results": 0.0,
+      "chronic_followup": 0.0,
+      "rx_refill": 0.0,
+      "medication_question": 1.0,
+      "scheduling": 0.0,
+      "general_admin": 0.0,
+      "referral": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 1.0,
+     "p": {
+      "nursing": 1.0,
+      "physician": 0.0,
+      "billing": 0.0,
+      "forms_desk": 0.0,
+      "scheduling": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.05,
+     "allergies": 0.23,
+     "recent_labs": 0.02,
+     "pending_results": 0.02,
+     "problem_list": 0.07,
+     "last_visit": 0.06,
+     "upcoming_appts": 0.03,
+     "scheduling_rules": 0.03,
+     "immunizations": 0.03,
+     "forms_status": 0.07,
+     "weight_dosing": 0.7,
+     "refill_protocol": 0.05,
+     "referral_status": 0.02,
+     "insurance_billing": 0.02,
+     "triage_protocol": 0.07,
+     "confidentiality": 0.04
+    },
+    "flags": {
+     "safety": 0.02,
+     "multi_issue": 0.03,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.21,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3409,
+     "output": 673
+    },
+    "latency_s": 0.38,
+    "language": {
+     "choice": "english",
+     "p": {
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "english": 1.0,
+      "other": 0.0,
+      "arabic": 0.0,
+      "vietnamese": 0.0,
+      "chinese": 0.0,
+      "spanish": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.7
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.93
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.9
+    },
+    "snippets": [
+     "allergies",
+     "med_list",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2979,
+     "output": 147
+    },
+    "latency_s": 2.52
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.98
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.92
+    },
+    "snippets": [
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2284,
+     "output": 99
+    },
+    "latency_s": 1.44
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! Thanks for checking before giving medicine \u2014 that's a great habit.\n\nFor Leo's weight (28 lb / 12.7 kg), children's acetaminophen (Tylenol) liquid, 160 mg per 5 mL, is:\n\n- **6 mL (190 mg) every 4 to 6 hours**\n- No more than 5 doses in 24 hours\n\nUse the syringe or cup that comes with the bottle, and double-check the bottle says 160 mg/5 mL, since strengths can differ.\n\nIf Leo is uncomfortable between doses, ibuprofen is also an option now that he's over 6 months: 6.3 mL (127 mg) of the 100 mg/5 mL liquid every 6 to 8 hours, given with food.\n\nPlease call us if his fever lasts more than 3 days, he isn't drinking, or he seems very sleepy or hard to wake.\n\n\u2014 Proctor Pediatrics care team",
+    "snippets_loaded": [
+     "weight_dosing"
+    ],
+    "usage": {
+     "input": 569,
+     "output": 306
+    },
+    "all_snippets_input": 1779,
+    "latency_s": 5.75
+   }
+  },
+  {
+   "id": "M10",
+   "patient": "olivia",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Three things: 1) Olivia needs her Focalin XR 10 refilled, she's out next week. 2) School says they need a new medication form for the nurse's office. 3) She's been getting headaches most afternoons, could that be from the medicine?",
+   "seed": {
+    "urgency": "medium",
+    "category": "rx_refill",
+    "owner": "physician",
+    "snippets": [
+     "forms_status",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol"
+    ],
+    "safety": false,
+    "multi_issue": true,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.98,
+     "p": {
+      "low": 0.0,
+      "medium": 0.98,
+      "high": 0.02
+     }
+    },
+    "category": {
+     "choice": "rx_refill",
+     "confidence": 0.99,
+     "p": {
+      "test_results": 0.0,
+      "medication_question": 0.01,
+      "scheduling": 0.0,
+      "forms_paperwork": 0.0,
+      "referral": 0.0,
+      "rx_refill": 0.99,
+      "records_request": 0.0,
+      "general_admin": 0.0,
+      "billing_insurance": 0.0,
+      "chronic_followup": 0.0,
+      "new_symptom": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.63,
+     "p": {
+      "physician": 0.27,
+      "scheduling": 0.0,
+      "billing": 0.0,
+      "forms_desk": 0.02,
+      "nursing": 0.71
+     }
+    },
+    "snippets": {
+     "med_list": 0.87,
+     "allergies": 0.58,
+     "recent_labs": 0.08,
+     "pending_results": 0.08,
+     "problem_list": 0.61,
+     "last_visit": 0.72,
+     "upcoming_appts": 0.2,
+     "scheduling_rules": 0.21,
+     "immunizations": 0.05,
+     "forms_status": 0.69,
+     "weight_dosing": 0.06,
+     "refill_protocol": 0.9,
+     "referral_status": 0.24,
+     "insurance_billing": 0.13,
+     "triage_protocol": 0.71,
+     "confidentiality": 0.3
+    },
+    "flags": {
+     "safety": 0.04,
+     "multi_issue": 0.98,
+     "confidential": 0.13,
+     "frustrated": 0.03,
+     "non_english": 0.01,
+     "evisit": 0.5,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3465,
+     "output": 672
+    },
+    "latency_s": 0.32,
+    "language": {
+     "choice": "english",
+     "p": {
+      "spanish": 0.0,
+      "vietnamese": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "chinese": 0.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.8
+    },
+    "category": {
+     "value": "rx_refill",
+     "confidence": 0.6
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.8
+    },
+    "snippets": [
+     "forms_status",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": true,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": true,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3044,
+     "output": 165
+    },
+    "latency_s": 2.66
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.78
+    },
+    "category": {
+     "value": "rx_refill",
+     "confidence": 0.65
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.72
+    },
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": true,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2342,
+     "output": 140
+    },
+    "latency_s": 1.42
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thanks for writing \u2014 I'll take these one at a time.\n\n1) Refills: Focalin XR is a controlled medicine, so our nurses can't renew it. I've sent your request to Olivia's doctor to review. Her last ADHD check was June 2, and a 3-month follow-up was planned, so we may need to schedule that visit. Please let us know if you'd like help booking it.\n\n2) School form: Her medication administration form expired, so we need a new one. I've passed this to our forms desk. You can drop off or upload the school's form, and we'll get it signed.\n\n3) Headaches: Afternoon headaches can happen with stimulant medicines, but other things can cause them too. Please don't change her dose on your own. Let us know how often they happen, how long they last, and whether she's eating and drinking during the day. The doctor will review this with the refill, and we can set up a visit if needed.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "med_list",
+     "allergies",
+     "problem_list",
+     "last_visit",
+     "forms_status",
+     "refill_protocol",
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 1113,
+     "output": 402
+    },
+    "all_snippets_input": 1875,
+    "latency_s": 7.17
+   }
+  },
+  {
+   "id": "M11",
+   "patient": "zara",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Any update on the GI referral? It's been 5 weeks and nobody has called us. Zara is still having stomach pain almost every day.",
+   "seed": {
+    "urgency": "medium",
+    "category": "referral",
+    "owner": "forms_desk",
+    "snippets": [
+     "insurance_billing",
+     "recent_labs",
+     "referral_status"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": true,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.89,
+     "p": {
+      "high": 0.02,
+      "low": 0.06,
+      "medium": 0.92
+     }
+    },
+    "category": {
+     "choice": "referral",
+     "confidence": 1.0,
+     "p": {
+      "general_admin": 0.0,
+      "medication_question": 0.0,
+      "billing_insurance": 0.0,
+      "referral": 1.0,
+      "chronic_followup": 0.0,
+      "scheduling": 0.0,
+      "new_symptom": 0.0,
+      "records_request": 0.0,
+      "test_results": 0.0,
+      "forms_paperwork": 0.0,
+      "rx_refill": 0.0
+     }
+    },
+    "owner": {
+     "choice": "forms_desk",
+     "confidence": 0.86,
+     "p": {
+      "scheduling": 0.05,
+      "physician": 0.0,
+      "nursing": 0.06,
+      "forms_desk": 0.89,
+      "billing": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.05,
+     "allergies": 0.08,
+     "recent_labs": 0.14,
+     "pending_results": 0.37,
+     "problem_list": 0.39,
+     "last_visit": 0.76,
+     "upcoming_appts": 0.43,
+     "scheduling_rules": 0.18,
+     "immunizations": 0.03,
+     "forms_status": 0.33,
+     "weight_dosing": 0.03,
+     "refill_protocol": 0.04,
+     "referral_status": 0.92,
+     "insurance_billing": 0.12,
+     "triage_protocol": 0.46,
+     "confidentiality": 0.41
+    },
+    "flags": {
+     "safety": 0.03,
+     "multi_issue": 0.12,
+     "confidential": 0.02,
+     "frustrated": 0.84,
+     "non_english": 0.01,
+     "evisit": 0.1,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3403,
+     "output": 672
+    },
+    "latency_s": 0.31,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "russian": 0.0,
+      "english": 1.0,
+      "spanish": 0.0,
+      "vietnamese": 0.0,
+      "haitian_creole": 0.0,
+      "other": 0.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.72
+    },
+    "category": {
+     "value": "referral",
+     "confidence": 0.85
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.72
+    },
+    "snippets": [
+     "last_visit",
+     "pending_results",
+     "problem_list",
+     "referral_status"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2979,
+     "output": 152
+    },
+    "latency_s": 2.7
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.85
+    },
+    "category": {
+     "value": "referral",
+     "confidence": 0.9
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.8
+    },
+    "snippets": [
+     "last_visit",
+     "problem_list",
+     "referral_status"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2280,
+     "output": 108
+    },
+    "latency_s": 1.49
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Dear Ms. Ahmed,\n\nThank you for reaching out, and I'm sorry no one has called you sooner. You should not have had to wait for an update.\n\nHere's where things stand: the referral to pediatric GI was placed on August 14. Since August 20, we have been waiting on prior authorization from your insurance company before the appointment can be scheduled. Our forms desk will check on this with the insurer and call you with an update, including what to expect next.\n\nPlease also let us know more about Zara's daily stomach pain. If the pain gets worse, or if she has vomiting, blood in her stool, weight loss, or fever, call our office right away so our nurse team can help. We can also talk about ways to keep her comfortable while we wait.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "last_visit",
+     "referral_status"
+    ],
+    "usage": {
+     "input": 503,
+     "output": 309
+    },
+    "all_snippets_input": 1840,
+    "latency_s": 6.14
+   }
+  },
+  {
+   "id": "M12",
+   "patient": "mia",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Please send Mia's shot records to her new daycare, Little Acorns. Their fax is 215-555-0142. Thank you!",
+   "seed": {
+    "urgency": "low",
+    "category": "records_request",
+    "owner": "forms_desk",
+    "snippets": [
+     "forms_status",
+     "immunizations"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 1.0,
+     "p": {
+      "high": 0.0,
+      "low": 1.0,
+      "medium": 0.0
+     }
+    },
+    "category": {
+     "choice": "records_request",
+     "confidence": 1.0,
+     "p": {
+      "forms_paperwork": 0.0,
+      "medication_question": 0.0,
+      "billing_insurance": 0.0,
+      "referral": 0.0,
+      "chronic_followup": 0.0,
+      "scheduling": 0.0,
+      "new_symptom": 0.0,
+      "records_request": 1.0,
+      "test_results": 0.0,
+      "general_admin": 0.0,
+      "rx_refill": 0.0
+     }
+    },
+    "owner": {
+     "choice": "forms_desk",
+     "confidence": 1.0,
+     "p": {
+      "scheduling": 0.0,
+      "physician": 0.0,
+      "nursing": 0.0,
+      "forms_desk": 1.0,
+      "billing": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.03,
+     "allergies": 0.11,
+     "recent_labs": 0.02,
+     "pending_results": 0.03,
+     "problem_list": 0.06,
+     "last_visit": 0.12,
+     "upcoming_appts": 0.04,
+     "scheduling_rules": 0.04,
+     "immunizations": 0.86,
+     "forms_status": 0.59,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.03,
+     "referral_status": 0.06,
+     "insurance_billing": 0.05,
+     "triage_protocol": 0.02,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.04,
+     "confidential": 0.01,
+     "frustrated": 0.01,
+     "non_english": 0.01,
+     "evisit": 0.02,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3402,
+     "output": 671
+    },
+    "latency_s": 0.35,
+    "language": {
+     "choice": "english",
+     "p": {
+      "english": 1.0,
+      "russian": 0.0,
+      "chinese": 0.0,
+      "spanish": 0.0,
+      "vietnamese": 0.0,
+      "other": 0.0,
+      "haitian_creole": 0.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "records_request",
+     "confidence": 0.88
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.9
+    },
+    "snippets": [
+     "forms_status",
+     "immunizations"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2962,
+     "output": 142
+    },
+    "latency_s": 2.57
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "records_request",
+     "confidence": 0.98
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.95
+    },
+    "snippets": [
+     "forms_status",
+     "immunizations"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2272,
+     "output": 103
+    },
+    "latency_s": 1.35
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! Thanks for reaching out about Mia's shot records.\n\nGood news \u2014 we have your signed release on file (dated January 5, 2026), so we can send her immunization certificate to Little Acorns. We'll fax it to 215-555-0142.\n\nMia's shots are up to date for her age. If the daycare needs anything else, like a different form or a physical exam note, just let us know and we'll be glad to help.\n\nPlease give us a couple of business days to get this out. If Little Acorns hasn't received it by then, send us a message and we'll follow up and resend.\n\nThanks so much,\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "immunizations",
+     "forms_status"
+    ],
+    "usage": {
+     "input": 528,
+     "output": 203
+    },
+    "all_snippets_input": 1836,
+    "latency_s": 3.87
+   }
+  },
+  {
+   "id": "M13",
+   "patient": "jack",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Just wanted to say thank you to Dr. Patel for taking such good care of Jack last week. He's back to school and feeling great!",
+   "seed": {
+    "urgency": "low",
+    "category": "general_admin",
+    "owner": "physician",
+    "snippets": [
+     "last_visit"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": false
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 1.0,
+     "p": {
+      "medium": 0.0,
+      "high": 0.0,
+      "low": 1.0
+     }
+    },
+    "category": {
+     "choice": "general_admin",
+     "confidence": 1.0,
+     "p": {
+      "general_admin": 1.0,
+      "records_request": 0.0,
+      "medication_question": 0.0,
+      "referral": 0.0,
+      "new_symptom": 0.0,
+      "forms_paperwork": 0.0,
+      "scheduling": 0.0,
+      "billing_insurance": 0.0,
+      "test_results": 0.0,
+      "chronic_followup": 0.0,
+      "rx_refill": 0.0
+     }
+    },
+    "owner": {
+     "choice": "forms_desk",
+     "confidence": 0.19,
+     "p": {
+      "billing": 0.02,
+      "nursing": 0.32,
+      "scheduling": 0.25,
+      "forms_desk": 0.36,
+      "physician": 0.05
+     }
+    },
+    "snippets": {
+     "med_list": 0.03,
+     "allergies": 0.03,
+     "recent_labs": 0.02,
+     "pending_results": 0.03,
+     "problem_list": 0.05,
+     "last_visit": 0.08,
+     "upcoming_appts": 0.04,
+     "scheduling_rules": 0.04,
+     "immunizations": 0.04,
+     "forms_status": 0.06,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.02,
+     "referral_status": 0.04,
+     "insurance_billing": 0.04,
+     "triage_protocol": 0.02,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.02,
+     "confidential": 0.01,
+     "frustrated": 0.01,
+     "non_english": 0.01,
+     "evisit": 0.01,
+     "needs_reply": 0.05
+    },
+    "usage": {
+     "input": 3396,
+     "output": 671
+    },
+    "latency_s": 0.35,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "haitian_creole": 0.0,
+      "english": 1.0,
+      "vietnamese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.97
+    },
+    "category": {
+     "value": "general_admin",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.5
+    },
+    "snippets": [],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": false
+    },
+    "usage": {
+     "input": 2962,
+     "output": 131
+    },
+    "latency_s": 2.49
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.99
+    },
+    "category": {
+     "value": "general_admin",
+     "confidence": 0.99
+    },
+    "owner": {
+     "value": "scheduling",
+     "confidence": 0.75
+    },
+    "snippets": [],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": false
+    },
+    "usage": {
+     "input": 2268,
+     "output": 94
+    },
+    "latency_s": 1.25
+   },
+   "action": "file_fyi",
+   "draft": null
+  },
+  {
+   "id": "M14",
+   "patient": "mateo",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Hola, mi hijo Mateo tiene tos desde hace dos semanas y ahora le silba el pecho en la noche. Usamos el inhalador pero ya casi no tiene. \u00bfEl doctor lo puede ver esta semana?",
+   "seed": {
+    "urgency": "medium",
+    "category": "new_symptom",
+    "owner": "nursing",
+    "snippets": [
+     "med_list",
+     "problem_list",
+     "refill_protocol",
+     "scheduling_rules",
+     "triage_protocol"
+    ],
+    "safety": false,
+    "multi_issue": true,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": true,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 0.61,
+     "p": {
+      "high": 0.74,
+      "low": 0.0,
+      "medium": 0.26
+     }
+    },
+    "category": {
+     "choice": "scheduling",
+     "confidence": 0.79,
+     "p": {
+      "chronic_followup": 0.07,
+      "billing_insurance": 0.0,
+      "test_results": 0.0,
+      "general_admin": 0.0,
+      "records_request": 0.0,
+      "medication_question": 0.0,
+      "scheduling": 0.81,
+      "forms_paperwork": 0.0,
+      "referral": 0.0,
+      "new_symptom": 0.11,
+      "rx_refill": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.95,
+     "p": {
+      "nursing": 0.95,
+      "forms_desk": 0.0,
+      "physician": 0.02,
+      "billing": 0.0,
+      "scheduling": 0.03
+     }
+    },
+    "snippets": {
+     "med_list": 0.6,
+     "allergies": 0.34,
+     "recent_labs": 0.04,
+     "pending_results": 0.08,
+     "problem_list": 0.66,
+     "last_visit": 0.39,
+     "upcoming_appts": 0.53,
+     "scheduling_rules": 0.74,
+     "immunizations": 0.09,
+     "forms_status": 0.29,
+     "weight_dosing": 0.05,
+     "refill_protocol": 0.47,
+     "referral_status": 0.14,
+     "insurance_billing": 0.15,
+     "triage_protocol": 0.88,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.23,
+     "multi_issue": 0.7,
+     "confidential": 0.01,
+     "frustrated": 0.03,
+     "non_english": 0.97,
+     "evisit": 0.32,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3445,
+     "output": 671
+    },
+    "latency_s": 0.34,
+    "language": {
+     "choice": "spanish",
+     "p": {
+      "chinese": 0.0,
+      "arabic": 0.0,
+      "other": 0.0,
+      "vietnamese": 0.0,
+      "spanish": 1.0,
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "english": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.6
+    },
+    "category": {
+     "value": "chronic_followup",
+     "confidence": 0.5
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.6
+    },
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol",
+     "scheduling_rules",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": true,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": true,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3047,
+     "output": 333
+    },
+    "latency_s": 64.8
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.82
+    },
+    "category": {
+     "value": "chronic_followup",
+     "confidence": 0.78
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.75
+    },
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol",
+     "scheduling_rules",
+     "triage_protocol",
+     "upcoming_appts",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": true,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": true,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2328,
+     "output": 134
+    },
+    "latency_s": 1.58
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hola, gracias por escribirnos.\n\nS\u00ed, queremos ver a Mateo pronto. Una enfermera lo llamar\u00e1 hoy para hacerle unas preguntas y apartarle una cita. Tenemos citas para enfermos todos los d\u00edas a partir de las 8 a.m.\n\nMientras tanto, por favor d\u00edgale a la enfermera si el inhalador de albuterol le ayuda cuando le silba el pecho y cu\u00e1ntas veces lo ha usado. Tambi\u00e9n le podemos avisar al doctor que el inhalador ya casi se acaba.\n\nLlame al 911 o vaya a emergencias ahora mismo si Mateo respira con mucha dificultad, si se le hunden las costillas al respirar, si no puede hablar o comer, o si sus labios se ven azules o grises.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "med_list",
+     "problem_list",
+     "upcoming_appts",
+     "scheduling_rules",
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 970,
+     "output": 358
+    },
+    "all_snippets_input": 1855,
+    "latency_s": 6.45,
+    "text_en": "Hi, thanks for writing to us.\n\nYes, we'd like to see Mateo soon. A nurse will call you today to ask some questions and set up an appointment. We have sick visits available every day starting at 8 a.m.\n\nIn the meantime, please tell the nurse whether the albuterol inhaler helps when his chest is wheezing, and how many times he's used it. We can also let the doctor know that the inhaler is almost empty.\n\nCall 911 or go to the emergency room right away if Mateo is having a lot of trouble breathing, if his ribs pull in when he breathes, if he can't talk or eat, or if his lips look blue or gray.\n\nProctor Pediatrics care team"
+   },
+   "text_en": "Hello, my son Mateo has had a cough for two weeks, and now his chest wheezes at night. We use the inhaler, but it's almost empty. Can the doctor see him this week?"
+  },
+  {
+   "id": "M15",
+   "patient": "zoe",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Zoe started the amoxicillin 4 days ago for her ear and now she has a red blotchy rash all over her belly and back. She's breathing fine and acting normal. Should we stop the medicine?",
+   "seed": {
+    "urgency": "high",
+    "category": "medication_question",
+    "owner": "nursing",
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "med_list",
+     "triage_protocol"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 0.76,
+     "p": {
+      "high": 0.84,
+      "medium": 0.16,
+      "low": 0.0
+     }
+    },
+    "category": {
+     "choice": "medication_question",
+     "confidence": 0.99,
+     "p": {
+      "test_results": 0.0,
+      "medication_question": 0.99,
+      "scheduling": 0.0,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.0,
+      "rx_refill": 0.0,
+      "chronic_followup": 0.0,
+      "records_request": 0.0,
+      "referral": 0.0,
+      "billing_insurance": 0.0,
+      "new_symptom": 0.01
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.92,
+     "p": {
+      "physician": 0.06,
+      "scheduling": 0.0,
+      "billing": 0.0,
+      "forms_desk": 0.0,
+      "nursing": 0.94
+     }
+    },
+    "snippets": {
+     "med_list": 0.43,
+     "allergies": 0.76,
+     "recent_labs": 0.04,
+     "pending_results": 0.05,
+     "problem_list": 0.18,
+     "last_visit": 0.36,
+     "upcoming_appts": 0.06,
+     "scheduling_rules": 0.11,
+     "immunizations": 0.04,
+     "forms_status": 0.11,
+     "weight_dosing": 0.04,
+     "refill_protocol": 0.06,
+     "referral_status": 0.06,
+     "insurance_billing": 0.03,
+     "triage_protocol": 0.81,
+     "confidentiality": 0.06
+    },
+    "flags": {
+     "safety": 0.12,
+     "multi_issue": 0.06,
+     "confidential": 0.01,
+     "frustrated": 0.03,
+     "non_english": 0.01,
+     "evisit": 0.58,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3440,
+     "output": 673
+    },
+    "latency_s": 0.32,
+    "language": {
+     "choice": "english",
+     "p": {
+      "arabic": 0.0,
+      "spanish": 0.0,
+      "english": 1.0,
+      "vietnamese": 0.0,
+      "russian": 0.0,
+      "other": 0.0,
+      "chinese": 0.0,
+      "haitian_creole": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.56
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.8
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.55
+    },
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "med_list",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": true,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3018,
+     "output": 349
+    },
+    "latency_s": 5.15
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.88
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "allergies",
+     "med_list",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2316,
+     "output": 129
+    },
+    "latency_s": 1.37
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thanks for letting us know about Zoe's rash, and for telling us she's breathing fine and acting like herself.\n\nA new widespread rash while taking amoxicillin is something our nurse needs to review with you today. One of our RNs will call you within the hour to ask a few questions and let you know whether to keep giving the amoxicillin or hold the next dose. Please keep your phone nearby.\n\nUntil we call, watch for trouble breathing, swelling of the lips, face, or tongue, hives with vomiting, or Zoe becoming very sleepy or hard to wake. If any of those happen, call 911 right away.\n\nYou can take a photo of the rash to show us.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "allergies",
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 723,
+     "output": 315
+    },
+    "all_snippets_input": 1827,
+    "latency_s": 5.52
+   }
+  },
+  {
+   "id": "M16",
+   "patient": "sam",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Hi, just checking about the thing we talked about at the last appointment. Should we still go ahead with it?",
+   "seed": {
+    "urgency": "low",
+    "category": "general_admin",
+    "owner": "physician",
+    "snippets": [
+     "last_visit"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 0.72,
+     "p": {
+      "medium": 0.19,
+      "low": 0.81,
+      "high": 0.0
+     }
+    },
+    "category": {
+     "choice": "general_admin",
+     "confidence": 0.9,
+     "p": {
+      "forms_paperwork": 0.0,
+      "test_results": 0.0,
+      "chronic_followup": 0.01,
+      "billing_insurance": 0.0,
+      "new_symptom": 0.0,
+      "medication_question": 0.04,
+      "referral": 0.01,
+      "rx_refill": 0.0,
+      "records_request": 0.0,
+      "scheduling": 0.02,
+      "general_admin": 0.92
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.61,
+     "p": {
+      "billing": 0.0,
+      "nursing": 0.69,
+      "scheduling": 0.05,
+      "physician": 0.25,
+      "forms_desk": 0.01
+     }
+    },
+    "snippets": {
+     "med_list": 0.06,
+     "allergies": 0.15,
+     "recent_labs": 0.13,
+     "pending_results": 0.17,
+     "problem_list": 0.29,
+     "last_visit": 0.94,
+     "upcoming_appts": 0.47,
+     "scheduling_rules": 0.12,
+     "immunizations": 0.49,
+     "forms_status": 0.65,
+     "weight_dosing": 0.04,
+     "refill_protocol": 0.05,
+     "referral_status": 0.55,
+     "insurance_billing": 0.13,
+     "triage_protocol": 0.07,
+     "confidentiality": 0.79
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.04,
+     "confidential": 0.15,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.13,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3391,
+     "output": 671
+    },
+    "latency_s": 0.33,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "russian": 0.0,
+      "haitian_creole": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "vietnamese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.72
+    },
+    "category": {
+     "value": "general_admin",
+     "confidence": 0.45
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.5
+    },
+    "snippets": [
+     "last_visit",
+     "problem_list",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2953,
+     "output": 149
+    },
+    "latency_s": 2.82
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.7
+    },
+    "category": {
+     "value": "general_admin",
+     "confidence": 0.6
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.65
+    },
+    "snippets": [
+     "last_visit"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2260,
+     "output": 98
+    },
+    "latency_s": 1.4
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thanks for reaching out about Sam.\n\nI want to make sure we give you the right answer, so I don't want to guess. Our notes from Sam's April 10, 2026 well visit don't make clear which plan you're asking about, and I don't see any forms or referrals on file right now.\n\nCould you reply with a few more details? For example, was it a test, a medicine, a referral to a specialist, a form, or a follow-up visit? If you remember who you spoke with, that helps too.\n\nOnce we hear back, a nurse will check the visit notes and get you a clear answer. If Sam is having any new or worsening symptoms in the meantime, please call our office.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "last_visit",
+     "forms_status",
+     "referral_status",
+     "confidentiality"
+    ],
+    "usage": {
+     "input": 624,
+     "output": 254
+    },
+    "all_snippets_input": 1745,
+    "latency_s": 4.26
+   }
+  },
+  {
+   "id": "M17",
+   "patient": "aiden",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "The pharmacy says insurance needs a new prior authorization for Aiden's Dupixent. His next shot is due in 5 days and they won't fill it without it.",
+   "seed": {
+    "urgency": "medium",
+    "category": "rx_refill",
+    "owner": "nursing",
+    "snippets": [
+     "insurance_billing",
+     "med_list",
+     "problem_list",
+     "refill_protocol"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.92,
+     "p": {
+      "high": 0.05,
+      "low": 0.0,
+      "medium": 0.95
+     }
+    },
+    "category": {
+     "choice": "rx_refill",
+     "confidence": 0.99,
+     "p": {
+      "general_admin": 0.0,
+      "referral": 0.0,
+      "billing_insurance": 0.0,
+      "medication_question": 0.0,
+      "chronic_followup": 0.0,
+      "scheduling": 0.0,
+      "new_symptom": 0.0,
+      "records_request": 0.0,
+      "test_results": 0.0,
+      "forms_paperwork": 0.0,
+      "rx_refill": 1.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.87,
+     "p": {
+      "scheduling": 0.0,
+      "physician": 0.0,
+      "nursing": 0.9,
+      "forms_desk": 0.01,
+      "billing": 0.09
+     }
+    },
+    "snippets": {
+     "med_list": 0.71,
+     "allergies": 0.18,
+     "recent_labs": 0.05,
+     "pending_results": 0.04,
+     "problem_list": 0.37,
+     "last_visit": 0.6,
+     "upcoming_appts": 0.28,
+     "scheduling_rules": 0.17,
+     "immunizations": 0.08,
+     "forms_status": 0.58,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.25,
+     "referral_status": 0.18,
+     "insurance_billing": 0.63,
+     "triage_protocol": 0.07,
+     "confidentiality": 0.28
+    },
+    "flags": {
+     "safety": 0.03,
+     "multi_issue": 0.06,
+     "confidential": 0.02,
+     "frustrated": 0.08,
+     "non_english": 0.01,
+     "evisit": 0.07,
+     "needs_reply": 0.97
+    },
+    "usage": {
+     "input": 3452,
+     "output": 672
+    },
+    "latency_s": 0.3,
+    "language": {
+     "choice": "english",
+     "p": {
+      "other": 0.0,
+      "vietnamese": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "russian": 0.0,
+      "haitian_creole": 0.0,
+      "chinese": 0.0,
+      "spanish": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.6
+    },
+    "category": {
+     "value": "rx_refill",
+     "confidence": 0.82
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.68
+    },
+    "snippets": [
+     "insurance_billing",
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "refill_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3032,
+     "output": 160
+    },
+    "latency_s": 2.39
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "rx_refill",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.88
+    },
+    "snippets": [
+     "allergies",
+     "insurance_billing",
+     "med_list",
+     "refill_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2320,
+     "output": 129
+    },
+    "latency_s": 1.73
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Thank you for letting us know about the pharmacy's message.\n\nYou're right that Aiden's prior authorization for Dupixent is set to expire on September 30, 2026. His last dose was August 27, 2026, so we want to keep him on schedule.\n\nOur nursing team handles these renewals. We will start the new prior authorization request for Aiden and send it to his insurance. Once it is approved, we will notify the pharmacy directly so they can fill it.\n\nWe know the timing feels tight with his next dose due in 5 days. If the insurance company has not responded in time, please call our office so we can look at other options with you.\n\nWe will reach out as soon as we hear back.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "med_list",
+     "last_visit",
+     "forms_status",
+     "insurance_billing"
+    ],
+    "usage": {
+     "input": 716,
+     "output": 224
+    },
+    "all_snippets_input": 1841,
+    "latency_s": 4.74
+   }
+  },
+  {
+   "id": "M18",
+   "patient": "riley",
+   "sender": "Patient (adolescent's own confidential account)",
+   "text": "Can I get tested for STDs without my parents finding out? Would it show up on their insurance?",
+   "seed": {
+    "urgency": "medium",
+    "category": "general_admin",
+    "owner": "nursing",
+    "snippets": [
+     "confidentiality",
+     "insurance_billing",
+     "scheduling_rules"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": true,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.48,
+     "p": {
+      "high": 0.14,
+      "low": 0.2,
+      "medium": 0.66
+     }
+    },
+    "category": {
+     "choice": "general_admin",
+     "confidence": 0.88,
+     "p": {
+      "referral": 0.0,
+      "scheduling": 0.01,
+      "chronic_followup": 0.0,
+      "new_symptom": 0.0,
+      "records_request": 0.0,
+      "medication_question": 0.0,
+      "rx_refill": 0.0,
+      "test_results": 0.0,
+      "billing_insurance": 0.1,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.89
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.85,
+     "p": {
+      "nursing": 0.89,
+      "forms_desk": 0.01,
+      "billing": 0.05,
+      "scheduling": 0.03,
+      "physician": 0.02
+     }
+    },
+    "snippets": {
+     "med_list": 0.03,
+     "allergies": 0.03,
+     "recent_labs": 0.03,
+     "pending_results": 0.06,
+     "problem_list": 0.07,
+     "last_visit": 0.07,
+     "upcoming_appts": 0.07,
+     "scheduling_rules": 0.09,
+     "immunizations": 0.05,
+     "forms_status": 0.2,
+     "weight_dosing": 0.01,
+     "refill_protocol": 0.04,
+     "referral_status": 0.07,
+     "insurance_billing": 0.37,
+     "triage_protocol": 0.05,
+     "confidentiality": 0.91
+    },
+    "flags": {
+     "safety": 0.02,
+     "multi_issue": 0.26,
+     "confidential": 0.99,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.09,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3390,
+     "output": 671
+    },
+    "latency_s": 0.33,
+    "language": {
+     "choice": "english",
+     "p": {
+      "spanish": 0.0,
+      "russian": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "haitian_creole": 0.0,
+      "arabic": 0.0,
+      "chinese": 0.0,
+      "vietnamese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.6
+    },
+    "category": {
+     "value": "general_admin",
+     "confidence": 0.5
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.5
+    },
+    "snippets": [
+     "confidentiality",
+     "insurance_billing",
+     "scheduling_rules"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": true,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2951,
+     "output": 153
+    },
+    "latency_s": 2.92
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "general_admin",
+     "confidence": 0.88
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "confidentiality"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": true,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2261,
+     "output": 98
+    },
+    "latency_s": 3.4
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi Riley,\n\nYes. In Pennsylvania, you can get tested and treated for STIs on your own starting at age 14. You do not need a parent's permission, and we will keep your visit and results in your confidential chart. Your parents cannot see those notes or these messages.\n\nAbout insurance: if we bill your parents' plan, they may get a statement in the mail that shows a visit or lab. If you would rather avoid that, tell us when you call. We can talk about low-cost or no-cost testing options and confidential clinics in the area.\n\nMessage us back or call the office and ask for the nurse, and we will help you set up a visit. We are glad you asked.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "confidentiality"
+    ],
+    "usage": {
+     "input": 554,
+     "output": 233
+    },
+    "all_snippets_input": 1751,
+    "latency_s": 4.86
+   },
+   "draft_alt": {
+    "text": "Hi Riley,\n\nYes. In Pennsylvania, you can get STI testing and treatment on your own starting at age 14 \u2014 you don't need a parent's permission, and we won't share it with them.\n\nAbout insurance: we can bill confidential services like STI testing to our confidential-services fund instead of your family's plan. That way no Explanation of Benefits is mailed to the policyholder. Just let us know when you book so we set it up ahead of time.\n\nYour messages here go only to your private account. A parent proxy can't see them.\n\nTo schedule, reply here or call and ask for a confidential visit. If you have symptoms or questions before then, message us and we'll help.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "insurance_billing",
+     "confidentiality"
+    ],
+    "usage": {
+     "input": 733,
+     "output": 243
+    },
+    "all_snippets_input": 1751,
+    "latency_s": 6.36,
+    "threshold": 0.3
+   }
+  },
+  {
+   "id": "M19",
+   "patient": "carter",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Carter's sugars have been 280-350 all weekend even with correction doses. Ketones are small this morning. He says he feels fine. What should we do?",
+   "seed": {
+    "urgency": "high",
+    "category": "chronic_followup",
+    "owner": "nursing",
+    "snippets": [
+     "med_list",
+     "problem_list",
+     "recent_labs",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 0.99,
+     "p": {
+      "medium": 0.01,
+      "low": 0.0,
+      "high": 0.99
+     }
+    },
+    "category": {
+     "choice": "chronic_followup",
+     "confidence": 0.99,
+     "p": {
+      "test_results": 0.0,
+      "billing_insurance": 0.0,
+      "chronic_followup": 0.99,
+      "new_symptom": 0.01,
+      "medication_question": 0.0,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.0,
+      "records_request": 0.0,
+      "rx_refill": 0.0,
+      "referral": 0.0,
+      "scheduling": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.89,
+     "p": {
+      "forms_desk": 0.0,
+      "physician": 0.09,
+      "billing": 0.0,
+      "scheduling": 0.0,
+      "nursing": 0.91
+     }
+    },
+    "snippets": {
+     "med_list": 0.44,
+     "allergies": 0.23,
+     "recent_labs": 0.11,
+     "pending_results": 0.12,
+     "problem_list": 0.53,
+     "last_visit": 0.5,
+     "upcoming_appts": 0.08,
+     "scheduling_rules": 0.19,
+     "immunizations": 0.04,
+     "forms_status": 0.24,
+     "weight_dosing": 0.03,
+     "refill_protocol": 0.12,
+     "referral_status": 0.09,
+     "insurance_billing": 0.05,
+     "triage_protocol": 0.83,
+     "confidentiality": 0.27
+    },
+    "flags": {
+     "safety": 0.33,
+     "multi_issue": 0.06,
+     "confidential": 0.02,
+     "frustrated": 0.03,
+     "non_english": 0.01,
+     "evisit": 0.3,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3457,
+     "output": 676
+    },
+    "latency_s": 0.62,
+    "language": {
+     "choice": "english",
+     "p": {
+      "russian": 0.0,
+      "english": 1.0,
+      "arabic": 0.0,
+      "vietnamese": 0.0,
+      "spanish": 0.0,
+      "haitian_creole": 0.0,
+      "other": 0.0,
+      "chinese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "chronic_followup",
+     "confidence": 0.83
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.78
+    },
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "recent_labs",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3035,
+     "output": 250
+    },
+    "latency_s": 5.48
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "chronic_followup",
+     "confidence": 0.88
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.9
+    },
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "recent_labs",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2325,
+     "output": 116
+    },
+    "latency_s": 1.41
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Thank you for letting us know \u2014 you did the right thing by checking ketones.\n\nBecause Carter's sugars have been over 300 with small ketones, we want to talk with you today. A nurse will call you within the hour. Please keep your phone nearby.\n\nWhile you wait, follow the sick-day plan we went over at his last visit:\n- Give extra water or sugar-free fluids to help flush the ketones.\n- Give correction doses as directed by his insulin plan.\n- Recheck his blood sugar and ketones every 2 to 3 hours.\n\nCall 911 or go to the emergency room right away if Carter starts vomiting, has trouble breathing, has belly pain, or becomes very sleepy or confused.\n\nWe will follow up with you shortly.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "problem_list",
+     "last_visit",
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 767,
+     "output": 282
+    },
+    "all_snippets_input": 1857,
+    "latency_s": 3.95
+   }
+  },
+  {
+   "id": "M20",
+   "patient": "harper",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Need to book Harper's 4 year checkup. She also needs her shots and the health form for pre-K.",
+   "seed": {
+    "urgency": "low",
+    "category": "scheduling",
+    "owner": "scheduling",
+    "snippets": [
+     "forms_status",
+     "immunizations",
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 1.0,
+     "p": {
+      "high": 0.0,
+      "low": 1.0,
+      "medium": 0.0
+     }
+    },
+    "category": {
+     "choice": "scheduling",
+     "confidence": 1.0,
+     "p": {
+      "new_symptom": 0.0,
+      "billing_insurance": 0.0,
+      "test_results": 0.0,
+      "general_admin": 0.0,
+      "records_request": 0.0,
+      "medication_question": 0.0,
+      "scheduling": 1.0,
+      "referral": 0.0,
+      "forms_paperwork": 0.0,
+      "chronic_followup": 0.0,
+      "rx_refill": 0.0
+     }
+    },
+    "owner": {
+     "choice": "scheduling",
+     "confidence": 0.66,
+     "p": {
+      "nursing": 0.22,
+      "forms_desk": 0.03,
+      "physician": 0.02,
+      "billing": 0.0,
+      "scheduling": 0.73
+     }
+    },
+    "snippets": {
+     "med_list": 0.07,
+     "allergies": 0.33,
+     "recent_labs": 0.05,
+     "pending_results": 0.04,
+     "problem_list": 0.13,
+     "last_visit": 0.26,
+     "upcoming_appts": 0.39,
+     "scheduling_rules": 0.51,
+     "immunizations": 0.77,
+     "forms_status": 0.73,
+     "weight_dosing": 0.03,
+     "refill_protocol": 0.04,
+     "referral_status": 0.15,
+     "insurance_billing": 0.28,
+     "triage_protocol": 0.03,
+     "confidentiality": 0.06
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.92,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.02,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3396,
+     "output": 670
+    },
+    "latency_s": 0.31,
+    "language": {
+     "choice": "english",
+     "p": {
+      "arabic": 0.0,
+      "chinese": 0.0,
+      "spanish": 0.0,
+      "haitian_creole": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "russian": 0.0,
+      "vietnamese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.93
+    },
+    "category": {
+     "value": "scheduling",
+     "confidence": 0.82
+    },
+    "owner": {
+     "value": "scheduling",
+     "confidence": 0.8
+    },
+    "snippets": [
+     "forms_status",
+     "immunizations",
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": true,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2958,
+     "output": 158
+    },
+    "latency_s": 2.92
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "scheduling",
+     "confidence": 0.75
+    },
+    "owner": {
+     "value": "scheduling",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "forms_status",
+     "immunizations",
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": true,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2267,
+     "output": 108
+    },
+    "latency_s": 1.39
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! Happy to help get Harper's 4-year checkup on the books.\n\nA well child visit is 30 minutes, and we can schedule up to 3 months out. Since Harper turns 4 soon, we'll aim for a date on or after her birthday so she can get the shots that are due at 4 years: DTaP, IPV, MMR, and Varicella. She's also due for a flu shot, which can be given at the same visit.\n\nThe pre-K health form needs a well visit within the past 12 months. Her last one was October 1, 2025, so this checkup will keep the form current. Please bring the form with you, or let us know and we can have it ready.\n\nReply with a few days and times that work, and we'll get her scheduled.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "scheduling_rules",
+     "immunizations",
+     "forms_status"
+    ],
+    "usage": {
+     "input": 636,
+     "output": 245
+    },
+    "all_snippets_input": 1814,
+    "latency_s": 6.25
+   }
+  },
+  {
+   "id": "M21",
+   "patient": "ella",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Did Ella's strep culture come back yet? They said 48 hours and it's been 3 days.",
+   "seed": {
+    "urgency": "low",
+    "category": "test_results",
+    "owner": "nursing",
+    "snippets": [
+     "pending_results",
+     "recent_labs"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.96,
+     "p": {
+      "low": 0.01,
+      "medium": 0.98,
+      "high": 0.01
+     }
+    },
+    "category": {
+     "choice": "test_results",
+     "confidence": 1.0,
+     "p": {
+      "scheduling": 0.0,
+      "medication_question": 0.0,
+      "test_results": 1.0,
+      "forms_paperwork": 0.0,
+      "referral": 0.0,
+      "rx_refill": 0.0,
+      "records_request": 0.0,
+      "chronic_followup": 0.0,
+      "general_admin": 0.0,
+      "billing_insurance": 0.0,
+      "new_symptom": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.88,
+     "p": {
+      "physician": 0.01,
+      "scheduling": 0.01,
+      "billing": 0.0,
+      "forms_desk": 0.08,
+      "nursing": 0.9
+     }
+    },
+    "snippets": {
+     "med_list": 0.03,
+     "allergies": 0.05,
+     "recent_labs": 0.1,
+     "pending_results": 0.89,
+     "problem_list": 0.09,
+     "last_visit": 0.78,
+     "upcoming_appts": 0.07,
+     "scheduling_rules": 0.08,
+     "immunizations": 0.02,
+     "forms_status": 0.06,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.03,
+     "referral_status": 0.42,
+     "insurance_billing": 0.04,
+     "triage_protocol": 0.08,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.03,
+     "confidential": 0.01,
+     "frustrated": 0.23,
+     "non_english": 0.01,
+     "evisit": 0.04,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3391,
+     "output": 671
+    },
+    "latency_s": 0.35,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "russian": 0.0,
+      "vietnamese": 0.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "haitian_creole": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.72
+    },
+    "category": {
+     "value": "test_results",
+     "confidence": 0.94
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.8
+    },
+    "snippets": [
+     "last_visit",
+     "pending_results",
+     "recent_labs"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2951,
+     "output": 147
+    },
+    "latency_s": 2.97
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.85
+    },
+    "category": {
+     "value": "test_results",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.9
+    },
+    "snippets": [
+     "pending_results",
+     "recent_labs"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2263,
+     "output": 118
+    },
+    "latency_s": 1.34
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi,\n\nThanks for checking in, and I'm sorry for the wait. Right now Ella's throat culture is still showing as pending in her chart, so we don't have a result to share yet. Cultures sometimes take a little longer than the 48 hours we quote.\n\nWe'll follow up with the lab and call you as soon as the result comes in. You don't need to do anything in the meantime.\n\nPlease let us know if Ella's sore throat is getting worse, if she has trouble swallowing or breathing, if she's not drinking fluids, or if she has a fever that won't come down. Call us right away for any of those.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "pending_results",
+     "last_visit"
+    ],
+    "usage": {
+     "input": 475,
+     "output": 209
+    },
+    "all_snippets_input": 1787,
+    "latency_s": 3.46
+   }
+  },
+  {
+   "id": "M22",
+   "patient": "eli",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "This is the THIRD message I've sent. Nobody has called me back about Eli's clearance letter for his ear tube surgery on Oct 6. If this isn't done the surgery gets cancelled. I'm about ready to switch practices.",
+   "seed": {
+    "urgency": "medium",
+    "category": "forms_paperwork",
+    "owner": "physician",
+    "snippets": [
+     "forms_status",
+     "last_visit",
+     "problem_list",
+     "referral_status"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": true,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 0.08,
+     "p": {
+      "low": 0.39,
+      "medium": 0.36,
+      "high": 0.25
+     }
+    },
+    "category": {
+     "choice": "forms_paperwork",
+     "confidence": 1.0,
+     "p": {
+      "scheduling": 0.0,
+      "medication_question": 0.0,
+      "test_results": 0.0,
+      "forms_paperwork": 1.0,
+      "general_admin": 0.0,
+      "rx_refill": 0.0,
+      "records_request": 0.0,
+      "chronic_followup": 0.0,
+      "referral": 0.0,
+      "billing_insurance": 0.0,
+      "new_symptom": 0.0
+     }
+    },
+    "owner": {
+     "choice": "forms_desk",
+     "confidence": 0.98,
+     "p": {
+      "physician": 0.0,
+      "scheduling": 0.0,
+      "billing": 0.0,
+      "forms_desk": 0.99,
+      "nursing": 0.01
+     }
+    },
+    "snippets": {
+     "med_list": 0.09,
+     "allergies": 0.22,
+     "recent_labs": 0.04,
+     "pending_results": 0.2,
+     "problem_list": 0.18,
+     "last_visit": 0.53,
+     "upcoming_appts": 0.51,
+     "scheduling_rules": 0.13,
+     "immunizations": 0.34,
+     "forms_status": 0.71,
+     "weight_dosing": 0.03,
+     "refill_protocol": 0.04,
+     "referral_status": 0.84,
+     "insurance_billing": 0.15,
+     "triage_protocol": 0.05,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.02,
+     "multi_issue": 0.07,
+     "confidential": 0.01,
+     "frustrated": 0.99,
+     "non_english": 0.01,
+     "evisit": 0.03,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3427,
+     "output": 673
+    },
+    "latency_s": 0.3,
+    "language": {
+     "choice": "english",
+     "p": {
+      "haitian_creole": 0.0,
+      "russian": 0.0,
+      "english": 1.0,
+      "other": 0.0,
+      "arabic": 0.0,
+      "vietnamese": 0.0,
+      "spanish": 0.0,
+      "chinese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.6
+    },
+    "category": {
+     "value": "forms_paperwork",
+     "confidence": 0.88
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.83
+    },
+    "snippets": [
+     "forms_status",
+     "last_visit",
+     "problem_list",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3015,
+     "output": 159
+    },
+    "latency_s": 3.23
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "forms_paperwork",
+     "confidence": 0.89
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "forms_status",
+     "last_visit",
+     "problem_list"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": true,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2301,
+     "output": 126
+    },
+    "latency_s": 1.5
+   },
+   "action": "draft",
+   "draft": {
+    "text": "I'm so sorry for the delay, and I understand how stressful this is with surgery coming up on October 6. You should not have had to write three times.\n\nHere's where things stand: ENT's request for Eli's pre-op clearance letter came to us on September 2. Before we can send the letter, one of our doctors needs to review Eli and sign off. Because Eli's last visit was August 15 \u2014 38 days ago \u2014 that's just past our 30-day window, so he does need a quick visit first.\n\nOur scheduling team will call you to get Eli in soon, well before October 6. If you'd rather not wait for a call, you can reply here or phone the office and ask for a pre-op visit.\n\nThank you for your patience. We want Eli's surgery to go ahead as planned.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "last_visit",
+     "upcoming_appts",
+     "forms_status",
+     "referral_status"
+    ],
+    "usage": {
+     "input": 640,
+     "output": 256
+    },
+    "all_snippets_input": 1915,
+    "latency_s": 4.79
+   }
+  },
+  {
+   "id": "M23",
+   "patient": "grace",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "I need a note for my job saying I was home with Grace Monday and Tuesday because she was sick. You saw her on video Monday.",
+   "seed": {
+    "urgency": "low",
+    "category": "forms_paperwork",
+    "owner": "forms_desk",
+    "snippets": [
+     "last_visit"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 0.94,
+     "p": {
+      "high": 0.01,
+      "medium": 0.03,
+      "low": 0.96
+     }
+    },
+    "category": {
+     "choice": "forms_paperwork",
+     "confidence": 1.0,
+     "p": {
+      "records_request": 0.0,
+      "new_symptom": 0.0,
+      "billing_insurance": 0.0,
+      "referral": 0.0,
+      "test_results": 0.0,
+      "chronic_followup": 0.0,
+      "medication_question": 0.0,
+      "rx_refill": 0.0,
+      "general_admin": 0.0,
+      "forms_paperwork": 1.0,
+      "scheduling": 0.0
+     }
+    },
+    "owner": {
+     "choice": "forms_desk",
+     "confidence": 0.9,
+     "p": {
+      "scheduling": 0.0,
+      "nursing": 0.06,
+      "physician": 0.02,
+      "billing": 0.0,
+      "forms_desk": 0.92
+     }
+    },
+    "snippets": {
+     "med_list": 0.04,
+     "allergies": 0.05,
+     "recent_labs": 0.03,
+     "pending_results": 0.06,
+     "problem_list": 0.16,
+     "last_visit": 0.69,
+     "upcoming_appts": 0.11,
+     "scheduling_rules": 0.2,
+     "immunizations": 0.04,
+     "forms_status": 0.4,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.03,
+     "referral_status": 0.07,
+     "insurance_billing": 0.1,
+     "triage_protocol": 0.1,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.07,
+     "confidential": 0.01,
+     "frustrated": 0.03,
+     "non_english": 0.01,
+     "evisit": 0.03,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3395,
+     "output": 673
+    },
+    "latency_s": 0.31,
+    "language": {
+     "choice": "english",
+     "p": {
+      "spanish": 0.0,
+      "chinese": 0.0,
+      "other": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "vietnamese": 0.0,
+      "haitian_creole": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "forms_paperwork",
+     "confidence": 0.94
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.88
+    },
+    "snippets": [
+     "forms_status",
+     "last_visit"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2961,
+     "output": 146
+    },
+    "latency_s": 2.57
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "forms_paperwork",
+     "confidence": 0.98
+    },
+    "owner": {
+     "value": "forms_desk",
+     "confidence": 0.92
+    },
+    "snippets": [
+     "last_visit"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2265,
+     "output": 116
+    },
+    "latency_s": 1.35
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thanks for reaching out.\n\nWe're happy to help with a work note. Our records show Grace had a telehealth visit on Monday, September 21, for a stomach illness, so we can write a note covering that day.\n\nFor Tuesday, we don't have a visit or note in her chart, so the doctor who saw Grace will need to review whether that day can be included based on her illness and home care instructions. Someone from our forms desk will follow up once that's confirmed.\n\nPlease let us know the name of the person or company the letter should be addressed to, and whether you'd like it sent through the portal, picked up, or faxed.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "last_visit"
+    ],
+    "usage": {
+     "input": 443,
+     "output": 266
+    },
+    "all_snippets_input": 1773,
+    "latency_s": 4.75
+   }
+  },
+  {
+   "id": "M24",
+   "patient": "owen",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Owen has been constipated for about 2 weeks. He only goes every 4 or 5 days and it's hard and it hurts him. We tried more water and prune juice. What else can we try?",
+   "seed": {
+    "urgency": "low",
+    "category": "new_symptom",
+    "owner": "physician",
+    "snippets": [
+     "allergies",
+     "med_list",
+     "problem_list",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": true,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.98,
+     "p": {
+      "high": 0.0,
+      "medium": 0.99,
+      "low": 0.01
+     }
+    },
+    "category": {
+     "choice": "new_symptom",
+     "confidence": 1.0,
+     "p": {
+      "rx_refill": 0.0,
+      "medication_question": 0.0,
+      "billing_insurance": 0.0,
+      "scheduling": 0.0,
+      "new_symptom": 1.0,
+      "chronic_followup": 0.0,
+      "referral": 0.0,
+      "test_results": 0.0,
+      "records_request": 0.0,
+      "forms_paperwork": 0.0,
+      "general_admin": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.99,
+     "p": {
+      "forms_desk": 0.0,
+      "billing": 0.0,
+      "scheduling": 0.0,
+      "nursing": 0.99,
+      "physician": 0.01
+     }
+    },
+    "snippets": {
+     "med_list": 0.1,
+     "allergies": 0.21,
+     "recent_labs": 0.04,
+     "pending_results": 0.06,
+     "problem_list": 0.21,
+     "last_visit": 0.18,
+     "upcoming_appts": 0.07,
+     "scheduling_rules": 0.11,
+     "immunizations": 0.04,
+     "forms_status": 0.22,
+     "weight_dosing": 0.03,
+     "refill_protocol": 0.1,
+     "referral_status": 0.06,
+     "insurance_billing": 0.07,
+     "triage_protocol": 0.71,
+     "confidentiality": 0.1
+    },
+    "flags": {
+     "safety": 0.02,
+     "multi_issue": 0.04,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.88,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3413,
+     "output": 672
+    },
+    "latency_s": 0.32,
+    "language": {
+     "choice": "english",
+     "p": {
+      "vietnamese": 0.0,
+      "haitian_creole": 0.0,
+      "chinese": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "english": 1.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.8
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.83
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.72
+    },
+    "snippets": [
+     "allergies",
+     "last_visit",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": true,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2979,
+     "output": 156
+    },
+    "latency_s": 2.77
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.82
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.88
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "med_list",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2287,
+     "output": 126
+    },
+    "latency_s": 1.45
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thanks for letting us know about Owen, and I'm sorry he's having a painful time going.\n\nTwo weeks of hard, painful stools that only come every 4\u20135 days is something we'd like to look at. Please schedule a visit or telehealth with us in the next 1\u20132 days. Our scheduling team can help if you reply here or call the office.\n\nUntil then, keep up the water and prune juice. You can also offer fruits like pears, peaches, and berries, plus beans and whole grains, and let him move and play each day. A warm bath can ease the pain. Please don't start any laxative or stool softener until we talk, so we can choose the right one and dose for him.\n\nCall us right away if Owen has belly pain that won't stop, vomiting, blood in his stool, or a fever.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 697,
+     "output": 299
+    },
+    "all_snippets_input": 1775,
+    "latency_s": 4.82
+   }
+  },
+  {
+   "id": "M25",
+   "patient": "lucas",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Lucas fell off the monkey bars about an hour ago and hit his head. He threw up twice and now he's really sleepy. Is it OK to let him nap?",
+   "seed": {
+    "urgency": "high",
+    "category": "new_symptom",
+    "owner": "nursing",
+    "snippets": [
+     "triage_protocol"
+    ],
+    "safety": true,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "high",
+     "confidence": 1.0,
+     "p": {
+      "low": 0.0,
+      "high": 1.0,
+      "medium": 0.0
+     }
+    },
+    "category": {
+     "choice": "new_symptom",
+     "confidence": 1.0,
+     "p": {
+      "referral": 0.0,
+      "general_admin": 0.0,
+      "billing_insurance": 0.0,
+      "scheduling": 0.0,
+      "records_request": 0.0,
+      "chronic_followup": 0.0,
+      "test_results": 0.0,
+      "forms_paperwork": 0.0,
+      "rx_refill": 0.0,
+      "medication_question": 0.0,
+      "new_symptom": 1.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.84,
+     "p": {
+      "physician": 0.12,
+      "forms_desk": 0.0,
+      "scheduling": 0.0,
+      "billing": 0.0,
+      "nursing": 0.88
+     }
+    },
+    "snippets": {
+     "med_list": 0.04,
+     "allergies": 0.06,
+     "recent_labs": 0.02,
+     "pending_results": 0.05,
+     "problem_list": 0.09,
+     "last_visit": 0.06,
+     "upcoming_appts": 0.04,
+     "scheduling_rules": 0.12,
+     "immunizations": 0.03,
+     "forms_status": 0.08,
+     "weight_dosing": 0.05,
+     "refill_protocol": 0.03,
+     "referral_status": 0.04,
+     "insurance_billing": 0.04,
+     "triage_protocol": 0.93,
+     "confidentiality": 0.05
+    },
+    "flags": {
+     "safety": 0.98,
+     "multi_issue": 0.04,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.04,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3402,
+     "output": 672
+    },
+    "latency_s": 0.35,
+    "language": {
+     "choice": "english",
+     "p": {
+      "other": 0.0,
+      "vietnamese": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "russian": 0.0,
+      "haitian_creole": 0.0,
+      "chinese": 0.0,
+      "spanish": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.98
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.96
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.72
+    },
+    "snippets": [
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2972,
+     "output": 139
+    },
+    "latency_s": 2.43
+   },
+   "haiku": {
+    "urgency": {
+     "value": "high",
+     "confidence": 0.99
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.95
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.98
+    },
+    "snippets": [
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": true,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2273,
+     "output": 100
+    },
+    "latency_s": 1.48
+   },
+   "action": "phone_now",
+   "draft": null
+  },
+  {
+   "id": "M26",
+   "patient": "isla",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Isla's follow-up blood test was normal! Does that mean we can stop the iron drops now?",
+   "seed": {
+    "urgency": "low",
+    "category": "medication_question",
+    "owner": "physician",
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "recent_labs"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.69,
+     "p": {
+      "medium": 0.79,
+      "low": 0.2,
+      "high": 0.01
+     }
+    },
+    "category": {
+     "choice": "medication_question",
+     "confidence": 1.0,
+     "p": {
+      "test_results": 0.0,
+      "general_admin": 0.0,
+      "records_request": 0.0,
+      "scheduling": 0.0,
+      "chronic_followup": 0.0,
+      "new_symptom": 0.0,
+      "billing_insurance": 0.0,
+      "forms_paperwork": 0.0,
+      "referral": 0.0,
+      "rx_refill": 0.0,
+      "medication_question": 1.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.98,
+     "p": {
+      "physician": 0.02,
+      "billing": 0.0,
+      "forms_desk": 0.0,
+      "nursing": 0.98,
+      "scheduling": 0.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.54,
+     "allergies": 0.13,
+     "recent_labs": 0.46,
+     "pending_results": 0.19,
+     "problem_list": 0.44,
+     "last_visit": 0.7,
+     "upcoming_appts": 0.15,
+     "scheduling_rules": 0.05,
+     "immunizations": 0.04,
+     "forms_status": 0.18,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.15,
+     "referral_status": 0.09,
+     "insurance_billing": 0.04,
+     "triage_protocol": 0.07,
+     "confidentiality": 0.05
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.04,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.45,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3418,
+     "output": 673
+    },
+    "latency_s": 0.33,
+    "language": {
+     "choice": "english",
+     "p": {
+      "other": 0.0,
+      "spanish": 0.0,
+      "russian": 0.0,
+      "chinese": 0.0,
+      "arabic": 0.0,
+      "english": 1.0,
+      "vietnamese": 0.0,
+      "haitian_creole": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.5
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.6
+    },
+    "owner": {
+     "value": "physician",
+     "confidence": 0.5
+    },
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "recent_labs"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2997,
+     "output": 269
+    },
+    "latency_s": 4.54
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.85
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.9
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.8
+    },
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "recent_labs"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2290,
+     "output": 110
+    },
+    "latency_s": 1.33
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! That's wonderful news about Isla's blood test \u2014 thank you for sticking with the iron drops.\n\nEven when the blood count looks normal, we usually keep giving iron for another 1 to 2 months. This helps rebuild her body's iron stores so the anemia doesn't come back. So please keep giving the 15 mg iron drops once a day for now.\n\nIsla's doctor will review her results and let you know exactly how much longer to continue and when to plan the next check. If you have not heard back in a few days, or if the drops are upsetting her stomach or causing constipation, just message us again.\n\nThanks for all you do to take care of her!\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "med_list",
+     "last_visit"
+    ],
+    "usage": {
+     "input": 508,
+     "output": 225
+    },
+    "all_snippets_input": 1918,
+    "latency_s": 5.19
+   }
+  },
+  {
+   "id": "M27",
+   "patient": "ruby",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Ruby has her 1 year shots next week. Is it safe for her to get the MMR when her brother is on chemo? I don't want to make him sick.",
+   "seed": {
+    "urgency": "low",
+    "category": "medication_question",
+    "owner": "physician",
+    "snippets": [
+     "immunizations",
+     "last_visit",
+     "upcoming_appts"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.81,
+     "p": {
+      "medium": 0.87,
+      "high": 0.11,
+      "low": 0.02
+     }
+    },
+    "category": {
+     "choice": "medication_question",
+     "confidence": 1.0,
+     "p": {
+      "general_admin": 0.0,
+      "records_request": 0.0,
+      "medication_question": 1.0,
+      "referral": 0.0,
+      "new_symptom": 0.0,
+      "forms_paperwork": 0.0,
+      "scheduling": 0.0,
+      "chronic_followup": 0.0,
+      "billing_insurance": 0.0,
+      "test_results": 0.0,
+      "rx_refill": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.93,
+     "p": {
+      "billing": 0.0,
+      "nursing": 0.95,
+      "scheduling": 0.0,
+      "forms_desk": 0.0,
+      "physician": 0.05
+     }
+    },
+    "snippets": {
+     "med_list": 0.05,
+     "allergies": 0.11,
+     "recent_labs": 0.03,
+     "pending_results": 0.04,
+     "problem_list": 0.12,
+     "last_visit": 0.11,
+     "upcoming_appts": 0.17,
+     "scheduling_rules": 0.08,
+     "immunizations": 0.28,
+     "forms_status": 0.12,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.03,
+     "referral_status": 0.06,
+     "insurance_billing": 0.04,
+     "triage_protocol": 0.05,
+     "confidentiality": 0.04
+    },
+    "flags": {
+     "safety": 0.03,
+     "multi_issue": 0.07,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.75,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3404,
+     "output": 673
+    },
+    "latency_s": 0.45,
+    "language": {
+     "choice": "english",
+     "p": {
+      "chinese": 0.0,
+      "spanish": 0.0,
+      "arabic": 0.0,
+      "russian": 0.0,
+      "other": 0.0,
+      "haitian_creole": 0.0,
+      "english": 1.0,
+      "vietnamese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.72
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.8
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.6
+    },
+    "snippets": [
+     "immunizations",
+     "problem_list",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2969,
+     "output": 150
+    },
+    "latency_s": 3.05
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.92
+    },
+    "category": {
+     "value": "medication_question",
+     "confidence": 0.85
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.78
+    },
+    "snippets": [
+     "immunizations",
+     "triage_protocol"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2275,
+     "output": 102
+    },
+    "latency_s": 1.34
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi, thank you for asking such a thoughtful question \u2014 you're looking out for both of your kids.\n\nIn general, the MMR vaccine is safe for children who live with someone getting chemotherapy. The weakened viruses in the MMR shot are not passed from the vaccinated child to other people. In fact, keeping Ruby up to date helps protect your son, because she is less likely to bring home measles, mumps, or rubella.\n\nA few other vaccines have different rules, so we'd like to review Ruby's full 12-month vaccine list and your son's treatment plan before her visit. One of our nurses will look at her chart and follow up with you, and we can also check with your son's cancer team if that would help.\n\nPlease call us if you have questions before then.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [],
+    "usage": {
+     "input": 413,
+     "output": 333
+    },
+    "all_snippets_input": 1811,
+    "latency_s": 5.86
+   }
+  },
+  {
+   "id": "M28",
+   "patient": "henry",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Since starting the Symbicort Henry has been doing so much better, only needed albuterol once this month! Do we still need the follow-up in October?",
+   "seed": {
+    "urgency": "low",
+    "category": "chronic_followup",
+    "owner": "physician",
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "upcoming_appts"
+    ],
+    "safety": false,
+    "multi_issue": false,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": false,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "low",
+     "confidence": 0.9,
+     "p": {
+      "high": 0.0,
+      "low": 0.94,
+      "medium": 0.06
+     }
+    },
+    "category": {
+     "choice": "scheduling",
+     "confidence": 0.83,
+     "p": {
+      "new_symptom": 0.0,
+      "test_results": 0.0,
+      "referral": 0.0,
+      "medication_question": 0.0,
+      "rx_refill": 0.0,
+      "general_admin": 0.0,
+      "forms_paperwork": 0.0,
+      "chronic_followup": 0.15,
+      "billing_insurance": 0.0,
+      "records_request": 0.0,
+      "scheduling": 0.85
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 0.73,
+     "p": {
+      "physician": 0.04,
+      "forms_desk": 0.0,
+      "billing": 0.0,
+      "nursing": 0.79,
+      "scheduling": 0.17
+     }
+    },
+    "snippets": {
+     "med_list": 0.44,
+     "allergies": 0.16,
+     "recent_labs": 0.05,
+     "pending_results": 0.11,
+     "problem_list": 0.64,
+     "last_visit": 0.78,
+     "upcoming_appts": 0.84,
+     "scheduling_rules": 0.24,
+     "immunizations": 0.09,
+     "forms_status": 0.58,
+     "weight_dosing": 0.02,
+     "refill_protocol": 0.18,
+     "referral_status": 0.24,
+     "insurance_billing": 0.12,
+     "triage_protocol": 0.25,
+     "confidentiality": 0.14
+    },
+    "flags": {
+     "safety": 0.01,
+     "multi_issue": 0.06,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.01,
+     "evisit": 0.26,
+     "needs_reply": 0.98
+    },
+    "usage": {
+     "input": 3442,
+     "output": 671
+    },
+    "latency_s": 0.35,
+    "language": {
+     "choice": "english",
+     "p": {
+      "russian": 0.0,
+      "vietnamese": 0.0,
+      "chinese": 0.0,
+      "haitian_creole": 0.0,
+      "spanish": 0.0,
+      "other": 0.0,
+      "english": 1.0,
+      "arabic": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.88
+    },
+    "category": {
+     "value": "chronic_followup",
+     "confidence": 0.72
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.55
+    },
+    "snippets": [
+     "last_visit",
+     "med_list",
+     "problem_list",
+     "scheduling_rules",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3019,
+     "output": 163
+    },
+    "latency_s": 2.71
+   },
+   "haiku": {
+    "urgency": {
+     "value": "low",
+     "confidence": 0.95
+    },
+    "category": {
+     "value": "scheduling",
+     "confidence": 0.92
+    },
+    "owner": {
+     "value": "scheduling",
+     "confidence": 0.88
+    },
+    "snippets": [
+     "last_visit",
+     "problem_list",
+     "upcoming_appts"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": false,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2320,
+     "output": 105
+    },
+    "latency_s": 1.43
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Hi! That's wonderful news \u2014 we're so glad Henry is breathing easier and only needed his albuterol once this month.\n\nYes, we'd still like to keep the October 8 visit with Dr. Nguyen. That appointment was planned when we stepped up his Symbicort in July. Doing well is exactly what we hope for, and it's the reason to come in \u2014 Dr. Nguyen can check his breathing and talk about whether it's safe to lower his medicine. We don't want to change asthma treatment without a check-in first.\n\nPlease keep giving the Symbicort as prescribed until then, and keep the albuterol handy.\n\nIf Henry starts needing albuterol more often, coughing at night, or has trouble keeping up at play, message us or call sooner.\n\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "problem_list",
+     "last_visit",
+     "upcoming_appts",
+     "forms_status"
+    ],
+    "usage": {
+     "input": 547,
+     "output": 258
+    },
+    "all_snippets_input": 1849,
+    "latency_s": 4.08
+   }
+  },
+  {
+   "id": "M29",
+   "patient": "bao",
+   "sender": "Parent/guardian (proxy account)",
+   "text": "Ch\u00e0o b\u00e1c s\u0129, con t\u00f4i B\u1ea3o b\u1ecb s\u1ed1t 38,9 \u0111\u1ed9 t\u1eeb t\u1ed1i h\u00f4m qua v\u00e0 ho nh\u1eb9. B\u00e9 v\u1eabn \u0103n u\u1ed1ng v\u00e0 ch\u01a1i b\u00ecnh th\u01b0\u1eddng. T\u00f4i c\u00f3 th\u1ec3 cho b\u00e9 u\u1ed1ng bao nhi\u00eau Tylenol? B\u00e9 n\u1eb7ng kho\u1ea3ng 20 kg. C\u00f3 c\u1ea7n \u0111\u01b0a b\u00e9 \u0111\u1ebfn kh\u00e1m kh\u00f4ng?",
+   "seed": {
+    "urgency": "medium",
+    "category": "new_symptom",
+    "owner": "nursing",
+    "snippets": [
+     "allergies",
+     "med_list",
+     "scheduling_rules",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "safety": false,
+    "multi_issue": true,
+    "confidential": false,
+    "frustrated": false,
+    "non_english": true,
+    "evisit": false,
+    "needs_reply": true
+   },
+   "jev": {
+    "urgency": {
+     "choice": "medium",
+     "confidence": 0.5,
+     "p": {
+      "medium": 0.67,
+      "high": 0.33,
+      "low": 0.0
+     }
+    },
+    "category": {
+     "choice": "new_symptom",
+     "confidence": 0.5,
+     "p": {
+      "billing_insurance": 0.0,
+      "new_symptom": 0.55,
+      "records_request": 0.0,
+      "general_admin": 0.0,
+      "rx_refill": 0.0,
+      "test_results": 0.0,
+      "referral": 0.0,
+      "forms_paperwork": 0.0,
+      "medication_question": 0.45,
+      "chronic_followup": 0.0,
+      "scheduling": 0.0
+     }
+    },
+    "owner": {
+     "choice": "nursing",
+     "confidence": 1.0,
+     "p": {
+      "billing": 0.0,
+      "scheduling": 0.0,
+      "forms_desk": 0.0,
+      "physician": 0.0,
+      "nursing": 1.0
+     }
+    },
+    "snippets": {
+     "med_list": 0.09,
+     "allergies": 0.45,
+     "recent_labs": 0.03,
+     "pending_results": 0.04,
+     "problem_list": 0.12,
+     "last_visit": 0.08,
+     "upcoming_appts": 0.05,
+     "scheduling_rules": 0.14,
+     "immunizations": 0.06,
+     "forms_status": 0.11,
+     "weight_dosing": 0.71,
+     "refill_protocol": 0.07,
+     "referral_status": 0.04,
+     "insurance_billing": 0.05,
+     "triage_protocol": 0.84,
+     "confidentiality": 0.07
+    },
+    "flags": {
+     "safety": 0.05,
+     "multi_issue": 0.32,
+     "confidential": 0.01,
+     "frustrated": 0.02,
+     "non_english": 0.98,
+     "evisit": 0.53,
+     "needs_reply": 0.99
+    },
+    "usage": {
+     "input": 3434,
+     "output": 672
+    },
+    "latency_s": 0.27,
+    "language": {
+     "choice": "vietnamese",
+     "p": {
+      "haitian_creole": 0.0,
+      "spanish": 0.0,
+      "russian": 0.0,
+      "arabic": 0.0,
+      "english": 0.0,
+      "other": 0.0,
+      "vietnamese": 1.0,
+      "chinese": 0.0
+     }
+    }
+   },
+   "opus": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.72
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.72
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "allergies",
+     "scheduling_rules",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": true,
+     "evisit": true,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 3045,
+     "output": 159
+    },
+    "latency_s": 5.07
+   },
+   "haiku": {
+    "urgency": {
+     "value": "medium",
+     "confidence": 0.85
+    },
+    "category": {
+     "value": "new_symptom",
+     "confidence": 0.9
+    },
+    "owner": {
+     "value": "nursing",
+     "confidence": 0.85
+    },
+    "snippets": [
+     "allergies",
+     "triage_protocol",
+     "weight_dosing"
+    ],
+    "flags": {
+     "safety": false,
+     "multi_issue": false,
+     "confidential": false,
+     "frustrated": false,
+     "non_english": true,
+     "evisit": false,
+     "needs_reply": true
+    },
+    "usage": {
+     "input": 2356,
+     "output": 108
+    },
+    "latency_s": 1.85
+   },
+   "action": "draft",
+   "draft": {
+    "text": "Ch\u00e0o anh/ch\u1ecb,\n\nC\u1ea3m \u01a1n anh/ch\u1ecb \u0111\u00e3 nh\u1eafn tin. R\u1ea5t m\u1eebng v\u00ec b\u00e9 B\u1ea3o v\u1eabn \u0103n u\u1ed1ng v\u00e0 ch\u01a1i b\u00ecnh th\u01b0\u1eddng \u2014 \u0111\u00f3 l\u00e0 d\u1ea5u hi\u1ec7u t\u1ed1t.\n\nV\u1edbi c\u00e2n n\u1eb7ng 20 kg, b\u00e9 c\u00f3 th\u1ec3 u\u1ed1ng Tylenol (acetaminophen) 300 mg, t\u1ee9c 9,4 mL lo\u1ea1i siro 160 mg/5 mL, m\u1ed7i 4\u20136 gi\u1edd, t\u1ed1i \u0111a 5 l\u1ea7n trong 24 gi\u1edd. N\u1ebfu c\u1ea7n, b\u00e9 c\u0169ng c\u00f3 th\u1ec3 u\u1ed1ng Ibuprofen 200 mg (10 mL lo\u1ea1i 100 mg/5 mL) m\u1ed7i 6\u20138 gi\u1edd. Nh\u1edb cho b\u00e9 u\u1ed1ng nhi\u1ec1u n\u01b0\u1edbc v\u00e0 ngh\u1ec9 ng\u01a1i.\n\nHi\u1ec7n ch\u01b0a c\u1ea7n \u0111\u01b0a b\u00e9 \u0111i kh\u00e1m ngay. Nh\u01b0ng xin g\u1ecdi cho ph\u00f2ng kh\u00e1m n\u1ebfu s\u1ed1t k\u00e9o d\u00e0i h\u01a1n 3 ng\u00e0y, b\u00e9 \u0111au tai, b\u1ecf \u0103n u\u1ed1ng, ho\u1eb7c tr\u00f4ng m\u1ec7t h\u01a1n nhi\u1ec1u. N\u1ebfu b\u00e9 kh\u00f3 th\u1edf, m\u00f4i t\u00edm t\u00e1i, ho\u1eb7c co gi\u1eadt, h\u00e3y g\u1ecdi 911 ngay.\n\nTh\u00e2n m\u1ebfn,\nProctor Pediatrics care team",
+    "snippets_loaded": [
+     "weight_dosing",
+     "triage_protocol"
+    ],
+    "usage": {
+     "input": 915,
+     "output": 456
+    },
+    "all_snippets_input": 1840,
+    "latency_s": 7.5,
+    "text_en": "Hello,\n\nThank you for your message. It's good to hear that Bao is still eating and playing normally \u2014 that's a good sign.\n\nAt 20 kg, he can take Tylenol (acetaminophen) 300 mg, which is 9.4 mL of the 160 mg/5 mL liquid, every 4\u20136 hours, up to 5 times in 24 hours. If needed, he can also take Ibuprofen 200 mg (10 mL of the 100 mg/5 mL liquid) every 6\u20138 hours. Please make sure he drinks plenty of fluids and gets rest.\n\nHe does not need to be seen right away. But please call the clinic if the fever lasts more than 3 days, if he has ear pain, stops eating or drinking, or seems much more tired than usual. If he has trouble breathing, his lips turn blue, or he has a seizure, call 911 immediately.\n\nBest regards,\nProctor Pediatrics care team"
+   },
+   "text_en": "Hello Doctor,\n\nMy son Bao has had a fever of 38.9\u00b0C (102\u00b0F) since last night, along with a mild cough. He is still eating, drinking, and playing normally.\n\nHow much Tylenol can I give him? He weighs about 20 kg (about 44 lbs).\n\nDoes he need to come in to be seen?"
+  }
+ ]
+}

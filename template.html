@@ -1,0 +1,501 @@
+<title>Jev In-Basket Triage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#E8ECEA; --surface:#FFFFFF; --sunk:#F2F4F3; --line:#CBD3CF; --line-soft:#E1E6E3;
+  --ink:#15201C; --ink-2:#44524C; --ink-3:#6B7872;
+  --bar:#1D3A46; --bar-2:#28505F; --bar-ink:#E6F0F3; --bar-ink-2:#A9C3CC;
+  --accent:#17607A; --accent-soft:#DCEBF0; --accent-ink:#0E4457; --sel:#CFE3EA;
+  --high:#B4361B; --high-soft:#F8E1DA; --med:#A06A0B; --med-soft:#F6EBD2; --low:#3C7552; --low-soft:#DDEDE2;
+  --jev:#17607A; --opus:#8A5A2B; --haiku:#7B6E9E;
+  --body:"Public Sans",ui-sans-serif,system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#0E1412; --surface:#171F1C; --sunk:#131A17; --line:#2E3A35; --line-soft:#232D29;
+  --ink:#E4EBE7; --ink-2:#AAB7B0; --ink-3:#839089;
+  --bar:#0F2129; --bar-2:#183440; --bar-ink:#DCEAEE; --bar-ink-2:#8FAAB4;
+  --accent:#5FB0CC; --accent-soft:#1B3540; --accent-ink:#A7D6E6; --sel:#1E3C47;
+  --high:#EF7D5E; --high-soft:#3A1F18; --med:#E0AE4E; --med-soft:#352A14; --low:#79C295; --low-soft:#1A3124;
+  --jev:#5FB0CC; --opus:#D69B63; --haiku:#AFA3D6;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E1412; --surface:#171F1C; --sunk:#131A17; --line:#2E3A35; --line-soft:#232D29;
+  --ink:#E4EBE7; --ink-2:#AAB7B0; --ink-3:#839089;
+  --bar:#0F2129; --bar-2:#183440; --bar-ink:#DCEAEE; --bar-ink-2:#8FAAB4;
+  --accent:#5FB0CC; --accent-soft:#1B3540; --accent-ink:#A7D6E6; --sel:#1E3C47;
+  --high:#EF7D5E; --high-soft:#3A1F18; --med:#E0AE4E; --med-soft:#352A14; --low:#79C295; --low-soft:#1A3124;
+  --jev:#5FB0CC; --opus:#D69B63; --haiku:#AFA3D6;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font:13px/1.45 var(--body);margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.mono{font-family:var(--mono)} .num{font-variant-numeric:tabular-nums}
+.app{display:flex;flex-direction:column;height:100%}
+
+/* top bar */
+.topbar{background:var(--bar);color:var(--bar-ink);display:flex;align-items:center;gap:16px;padding:0 16px;height:44px;flex:none}
+.topbar .brand{font-weight:700;letter-spacing:.01em;white-space:nowrap}
+.topbar .brand span{font-weight:400;color:var(--bar-ink-2);margin-left:8px}
+.topbar .act{display:flex;gap:2px;margin-left:8px}
+.topbar .act button{background:none;border:0;color:var(--bar-ink-2);padding:6px 10px;border-radius:4px;cursor:pointer;white-space:nowrap}
+.topbar .act button[aria-pressed="true"]{background:var(--bar-2);color:var(--bar-ink)}
+.topbar .sp{flex:1}
+.topbar .user{color:var(--bar-ink-2);white-space:nowrap}
+.gear{background:none;border:1px solid transparent;color:var(--bar-ink);width:32px;height:32px;border-radius:6px;cursor:pointer;display:grid;place-items:center}
+.gear:hover,.gear[aria-expanded="true"]{background:var(--bar-2)}
+.gear svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}
+
+/* in-basket */
+.ib{flex:1;display:grid;grid-template-columns:200px minmax(0,380px) minmax(0,1fr);min-height:0}
+.folders{background:var(--sunk);border-right:1px solid var(--line);overflow-y:auto;padding:8px 0}
+.fh{font:600 11px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:10px 14px 4px}
+.folder{display:flex;justify-content:space-between;gap:8px;width:100%;border:0;background:none;padding:6px 14px;cursor:pointer;text-align:left;color:var(--ink-2)}
+.folder:hover{background:var(--line-soft)}
+.folder[aria-pressed="true"]{background:var(--sel);color:var(--ink);font-weight:600}
+.folder .ct{font:500 12px var(--mono);font-variant-numeric:tabular-nums}
+.folder.alert{color:var(--high);font-weight:600}
+.folder.alert .ct{background:var(--high);color:#fff;border-radius:9px;padding:0 6px}
+
+.listwrap{border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;min-height:0}
+.listhead{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--sunk);font-weight:600}
+.listhead span{font-weight:400;color:var(--ink-3)}
+.list{overflow-y:auto;flex:1}
+.row{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:0 10px;width:100%;border:0;border-bottom:1px solid var(--line-soft);background:none;padding:7px 10px 7px 0;text-align:left;cursor:pointer;align-items:start}
+.row:hover{background:var(--sunk)}
+.row[aria-current="true"]{background:var(--sel)}
+.row .bar{align-self:stretch}
+.bar.high{background:var(--high)} .bar.medium{background:var(--med)} .bar.low{background:transparent}
+.row .who{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .who small{font-weight:400;color:var(--ink-3)}
+.row .subj{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px}
+.row .tm{font:400 11.5px var(--mono);color:var(--ink-3);text-align:right}
+.row .tags{grid-column:2/4;display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+.tag{font:600 10.5px/1 var(--body);padding:3px 5px;border-radius:3px;background:var(--sunk);color:var(--ink-2);white-space:nowrap;border:1px solid var(--line-soft)}
+.tag.red{background:var(--high-soft);color:var(--high);border-color:transparent}
+.tag.amb{background:var(--med-soft);color:var(--med);border-color:transparent}
+.tag.ai{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent}
+.empty{padding:24px;color:var(--ink-3);text-align:center}
+
+/* message pane */
+.pane{overflow-y:auto;min-width:0;display:flex;flex-direction:column}
+.banner{background:var(--surface);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:6px 22px;flex-wrap:wrap;align-items:baseline}
+.banner .nm{font-size:16px;font-weight:700}
+.banner .kv{color:var(--ink-3);white-space:nowrap}
+.banner .kv b{color:var(--ink);font-weight:500}
+.banner .alg b{color:var(--high)}
+.sec{background:var(--surface);border-bottom:1px solid var(--line);padding:12px 16px}
+.sec-h{font:600 11px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--ink-3);font-size:12px;margin-bottom:8px}
+.meta b{color:var(--ink-2);font-weight:500}
+.msgtxt{font-size:14px;line-height:1.55;margin:0;max-width:75ch}
+.triage{display:flex;gap:10px 28px;flex-wrap:wrap;align-items:flex-start}
+.tf{display:flex;flex-direction:column;gap:4px;min-width:0}
+.tf .cap{font:600 10.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tf .val{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.conf{display:inline-flex;align-items:center;gap:5px;font:400 11px var(--mono);color:var(--ink-3);white-space:nowrap}
+.conf .cm{display:inline-flex;gap:2px}
+.conf .cm i{width:6px;height:10px;border-radius:1px;background:var(--line)}
+.conf .cm i.on{background:var(--ink-2)}
+.conf.lowc{color:var(--med)}
+.conf.lowc .cm i.on{background:var(--med)}
+.alt{font-size:11.5px;color:var(--ink-3)}
+.trans{margin-top:10px;background:var(--sunk);border-left:3px solid var(--med);border-radius:0 4px 4px 0;padding:8px 12px;max-width:75ch}
+.trans p{margin:0;white-space:pre-wrap;color:var(--ink-2)}
+.hv{position:relative;display:inline-flex;cursor:help;border-radius:4px}
+.hv .tip{position:absolute;left:0;top:calc(100% + 6px);z-index:20;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;box-shadow:0 4px 14px rgba(15,30,25,.14);display:none;flex-direction:column;gap:5px;white-space:nowrap}
+.hv:hover .tip,.hv:focus .tip,.hv:focus-within .tip{display:flex}
+.tip .th{font:600 10.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.flagrow{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-flex;gap:5px;align-items:center;padding:3px 8px;border-radius:4px;border:1px solid var(--line);font-weight:500;background:var(--surface);white-space:nowrap}
+.pill.high{background:var(--high-soft);color:var(--high);border-color:transparent}
+.pill.medium{background:var(--med-soft);color:var(--med);border-color:transparent}
+.pill.low{background:var(--low-soft);color:var(--low);border-color:transparent}
+.pill .p{font:400 11px var(--mono);opacity:.8}
+.pill.warn{border-color:var(--med);color:var(--med)}
+details.why{margin-top:10px}
+details.why summary{cursor:pointer;color:var(--accent);font-size:12px;width:max-content}
+.whygrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 14px;margin-top:10px}
+.lbl{font:600 10.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.pb{display:grid;grid-template-columns:minmax(0,1fr) 60px 30px;gap:6px;align-items:center;font-size:11.5px;margin:2px 0}
+.pb .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}
+.pb.win .n{color:var(--ink);font-weight:600}
+.pb .t{height:6px;background:var(--sunk);border-radius:3px;position:relative;overflow:hidden}
+.pb .f{position:absolute;inset:0 auto 0 0;background:var(--jev);opacity:.45}
+.pb.win .f{opacity:1}
+.pb .v{font:400 11px var(--mono);text-align:right;color:var(--ink-3)}
+.ref{font-size:11px;color:var(--ink-3);margin-top:4px}
+.ok{color:var(--low)} .bad{color:var(--high)}
+
+.alertbox{margin:12px 16px 0;padding:10px 14px;border-radius:6px;border:1px solid var(--high);background:var(--high-soft);display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap}
+.alertbox b{color:var(--high)}
+.alertbox.neutral{border-color:var(--line);background:var(--sunk)}
+.alertbox.neutral b{color:var(--ink)}
+.alertbox.amber{border-color:var(--med);background:var(--med-soft)}
+.alertbox.amber b{color:var(--med)}
+.alertbox .sp{flex:1}
+
+.reply{padding:12px 16px 16px;background:var(--surface);flex:1;margin-top:12px;border-top:1px solid var(--line)}
+.ctx{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:12px;color:var(--ink-3)}
+textarea.draft{width:100%;min-height:230px;resize:vertical;border:1px solid var(--line);border-radius:4px;padding:10px 12px;background:var(--surface);line-height:1.55;font-size:13.5px}
+.btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:500}
+.btn:hover{background:var(--sunk)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.red{background:var(--high);border-color:var(--high);color:#fff}
+.btns .sp{flex:1}
+.btns .aim{font-size:11.5px;color:var(--ink-3)}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--ground);padding:8px 16px;border-radius:6px;font-weight:500}
+
+/* configure drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,20,16,.35)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,100%);background:var(--surface);border-left:1px solid var(--line);padding:calc(16px + env(safe-area-inset-top,0px)) 18px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;display:flex;flex-direction:column;gap:18px}
+.drawer h2{font-size:16px;margin:0;display:flex;justify-content:space-between;align-items:center}
+.drawer h2 button{background:none;border:0;font-size:20px;cursor:pointer;color:var(--ink-3)}
+.dg{display:flex;flex-direction:column;gap:10px}
+.fld label{display:flex;justify-content:space-between;gap:8px;font-weight:500}
+.fld output{font:500 12.5px var(--mono)}
+.fld input[type=range]{width:100%;accent-color:var(--accent)}
+.fld .h{font-size:11.5px;color:var(--ink-3)}
+.chk{display:flex;gap:8px;align-items:center;cursor:pointer}
+.linkbtn{display:flex;justify-content:space-between;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:9px 12px;cursor:pointer}
+.linkbtn:hover{background:var(--sunk)}
+.linkbtn span{color:var(--ink-3)}
+.dnote{font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--line-soft);padding-top:12px;margin-top:auto}
+
+/* analysis views */
+.av{flex:1;overflow-y:auto;padding-inline:20px;padding-block:16px 48px}
+.av-in{max-width:1180px;margin:0 auto;display:grid;gap:12px}
+.avbar{display:flex;align-items:center;gap:12px}
+.avbar h1{font-size:18px;margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
+.card h3{font-size:14px;margin:0 0 10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.card h3 .sub{font-weight:400;font-size:12px;color:var(--ink-3)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font:500 10.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+td.best{font-weight:700}
+.armdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.note{font-size:11.5px;color:var(--ink-3);margin-top:8px}
+svg text{fill:var(--ink-3);font:11px var(--body)}
+svg .grid{stroke:var(--line-soft)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);margin-top:6px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.dis td{white-space:normal;text-align:left}
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--ink-2)}
+.step .w{font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.step b{display:block;color:var(--ink);font-size:13px;margin:2px 0}
+.step.jev{border-color:var(--jev)} .step.jev .w{color:var(--jev)}
+.step.llm{border-color:var(--opus)} .step.llm .w{color:var(--opus)}
+.qgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.qgrid ul{margin:0;padding-left:16px;color:var(--ink-2);font-size:12px}
+pre.code{font:11.5px/1.5 var(--mono);background:var(--sunk);border-radius:6px;padding:10px 12px;overflow-x:auto;margin:0;color:var(--ink-2)}
+.ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.idea .k{font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.idea .k.next{color:var(--ink-3)}
+.idea b{display:block;margin:3px 0}
+.idea p{margin:0;color:var(--ink-2);font-size:12.5px}
+.idea .ev{font:400 11px var(--mono);color:var(--ink-3);margin-top:6px}
+.cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cmp pre{white-space:pre-wrap;font:12.5px/1.5 var(--body);background:var(--sunk);border-radius:6px;padding:10px 12px;margin:6px 0 0}
+
+@media (max-width:1000px){.ib{grid-template-columns:170px minmax(0,1fr)}.pane{grid-column:1/-1;border-top:1px solid var(--line)}.app{height:auto}.list{max-height:420px}.flow{grid-template-columns:repeat(3,minmax(0,1fr))}.whygrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.ib{grid-template-columns:1fr}.folders{display:flex;flex-wrap:wrap;padding:6px}.fh{display:none}.folder{width:auto;border-radius:4px}.topbar .act,.topbar .user{display:none}
+  .grid2,.qgrid,.cmp,.whygrid{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.av{padding-inline:16px}}
+</style>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">In Basket<span>Proctor Pediatrics</span></div>
+    <div class="act"><button aria-pressed="true">Messages</button><button>Results</button><button>Rx Requests</button><button>Cosign</button></div>
+    <div class="sp"></div>
+    <div class="user">A. Patel, MD</div>
+    <button class="gear" id="gear" aria-label="Configure" aria-expanded="false" title="Configure"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  </header>
+
+  <main class="ib" id="ibView">
+    <nav class="folders" id="folders" aria-label="Folders"></nav>
+    <section class="listwrap"><div class="listhead" id="listhead"></div><div class="list" id="list" role="list"></div></section>
+    <section class="pane" id="pane"></section>
+  </main>
+
+  <main class="av" id="avView" hidden><div class="av-in" id="avIn"></div></main>
+</div>
+
+<div id="drawerRoot" hidden>
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" role="dialog" aria-label="Configure">
+    <h2>Configure <button id="closeDrawer" aria-label="Close">×</button></h2>
+    <div class="dg">
+      <div class="lbl">Routing</div>
+      <div class="fld"><label for="routeT">Auto-route at owner probability ≥ <output id="routeTv">0.60</output></label><input type="range" id="routeT" min="0.3" max="0.95" step="0.05" value="0.6"><div class="h">Below this: Needs Triage.</div></div>
+      <div class="fld"><label for="safeT">Call Now at safety probability ≥ <output id="safeTv">0.50</output></label><input type="range" id="safeT" min="0.1" max="0.9" step="0.05" value="0.5"></div>
+    </div>
+    <div class="dg">
+      <div class="lbl">Draft context</div>
+      <div class="fld"><label for="snipT">Load snippet at probability ≥ <output id="snipTv">0.50</output></label><input type="range" id="snipT" min="0.1" max="0.8" step="0.05" value="0.5"><div class="h">Drafts pre-generated at 0.50 (M18 also at 0.30).</div></div>
+    </div>
+    <div class="dg">
+      <div class="lbl">Display</div>
+      <label class="chk" for="showWhy"><input type="checkbox" id="showWhy" checked> Show AI probabilities to clinicians</label>
+      <label class="chk" for="showSeed"><input type="checkbox" id="showSeed"> Show reference labels &amp; Claude comparison</label>
+    </div>
+    <div class="dg">
+      <div class="lbl">Analysis</div>
+      <button class="linkbtn" data-av="bench">Benchmark: Jev vs Claude <span>→</span></button>
+      <button class="linkbtn" data-av="how">How it works <span>→</span></button>
+      <button class="linkbtn" data-av="more">Other triage signals <span>→</span></button>
+    </div>
+    <div class="dnote">Synthetic data, fictional practice. Jev <span class="mono" id="jevModel"></span> · run <span id="runAt"></span>.</div>
+  </aside>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const D = /*DATA*/null;
+const $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const M = D.messages, N = M.length, PAT = D.patients;
+const LBL = {
+  urgency:{high:"High",medium:"Medium",low:"Low"},
+  category:{rx_refill:"Rx refill / PA",medication_question:"Medication question",new_symptom:"New symptom",chronic_followup:"Chronic condition",test_results:"Test results",scheduling:"Scheduling",forms_paperwork:"Forms / letter",referral:"Referral",billing_insurance:"Billing",records_request:"Records request",general_admin:"General"},
+  lang:{english:"English",spanish:"Spanish",vietnamese:"Vietnamese",chinese:"Chinese",arabic:"Arabic",russian:"Russian",haitian_creole:"Haitian Creole",other:"Other language"},
+  owner:{nursing:"RN Triage Pool",physician:"PCP",scheduling:"Scheduling Pool",forms_desk:"Referrals & Forms",billing:"Billing Office"},
+  snip:{med_list:"Meds",allergies:"Allergies",recent_labs:"Labs",pending_results:"Pending results",problem_list:"Problem list",last_visit:"Last visit",upcoming_appts:"Appointments",scheduling_rules:"Scheduling rules",immunizations:"Immunizations",forms_status:"Forms on file",weight_dosing:"Weight dosing",refill_protocol:"Refill protocol",referral_status:"Referrals",insurance_billing:"Insurance",triage_protocol:"Triage protocol",confidentiality:"Teen confidentiality"},
+  flag:{safety:"Safety",multi_issue:"Multiple requests",confidential:"Confidential",frustrated:"Frustrated",non_english:"Non-English",evisit:"E-visit",needs_reply:"Needs reply"},
+};
+const PRICE = {jev:[0.042,0], opus:[5,25], haiku:[1,5]};
+const ARMS = [["jev","Jev 1.13","var(--jev)"],["opus","Claude Opus 5","var(--opus)"],["haiku","Claude Haiku 4.5","var(--haiku)"]];
+const topP = x => Math.max(...Object.values(x.p));
+const armLab = (r, arm, k) => arm === "jev" ? [r.jev[k].choice, topP(r.jev[k])] : [r[arm][k].value, r[arm][k].confidence];
+const fmt$ = v => v >= 1 ? "$" + v.toLocaleString(undefined,{maximumFractionDigits:0}) : "$" + v.toFixed(v < 0.01 ? 5 : 3);
+const pct = v => Math.round(v * 100) + "%";
+const URG = {high:0, medium:1, low:2};
+// fabricated receive times across this morning
+M.forEach((r,i) => { const m = 6*60 + 4 + ((i * 37) % 290); r._m = m; r._t = `${Math.floor(m/60)%12||12}:${String(m%60).padStart(2,"0")} ${m<720?"AM":"PM"}`; });
+
+let routeT = 0.6, safeT = 0.5, snipT = 0.5, showWhy = true, showSeed = false, folder = "all", sel = null; const done = new Set();
+
+const isForeign = r => r.jev.language && r.jev.language.choice !== "english";
+function routeOf(r) {
+  if (r.jev.flags.safety >= safeT) return "phone";
+  if (isForeign(r)) return "translation";
+  if (r.jev.flags.needs_reply < 0.5) return "fyi";
+  if (topP(r.jev.owner) < routeT) return "triage";
+  return r.jev.owner.choice;
+}
+const FOLDERS = [["h","Priority"],["phone","Call Now"],["triage","Needs Triage"],["h","Pools"],["physician","My Patients (PCP)"],["nursing","RN Triage Pool"],["scheduling","Scheduling Pool"],["forms_desk","Referrals & Forms"],["billing","Billing Office"],["translation","Translation"],["h","Other"],["fyi","FYI / No Reply"],["all","All Messages"]];
+const FNAME = Object.fromEntries(FOLDERS.filter(f => f[0] !== "h"));
+
+function renderFolders() {
+  const c = {all:0}; M.forEach(r => { if (done.has(r.id)) return; const p = routeOf(r); c[p] = (c[p]||0)+1; c.all++; });
+  $("#folders").innerHTML = FOLDERS.map(([k,n]) => k === "h" ? `<div class="fh">${n}</div>` :
+    `<button class="folder ${k==="phone"&&c.phone?"alert":""}" aria-pressed="${folder===k}" data-f="${k}"><span>${n}</span><span class="ct">${c[k]||0}</span></button>`).join("");
+  document.querySelectorAll(".folder").forEach(b => b.onclick = () => { folder = b.dataset.f; sel = null; renderFolders(); renderList(); });
+}
+
+function tagsFor(r) {
+  const f = r.jev.flags, t = [];
+  if (f.safety >= safeT) t.push(`<span class="tag red">Safety</span>`);
+  if (isForeign(r)) t.push(`<span class="tag amb">${LBL.lang[r.jev.language.choice]}</span>`);
+  ["confidential","multi_issue","frustrated","evisit"].forEach(k => f[k] >= 0.5 && t.push(`<span class="tag ${k==="confidential"?"amb":""}">${LBL.flag[k]}</span>`));
+  if (r.draft && routeOf(r) !== "phone") t.push(`<span class="tag ai">AI draft</span>`);
+  return t.join("");
+}
+function renderList() {
+  const rows = M.filter(r => !done.has(r.id) && (folder === "all" || routeOf(r) === folder))
+    .sort((a,b) => URG[a.jev.urgency.choice] - URG[b.jev.urgency.choice] || a._m - b._m);
+  if (!rows.find(r => r.id === sel)) sel = rows[0]?.id ?? null;
+  $("#listhead").innerHTML = `${FNAME[folder]} <span>${rows.length} message${rows.length===1?"":"s"}</span>`;
+  $("#list").innerHTML = rows.length ? rows.map(r => { const u = r.jev.urgency.choice, p = PAT[r.patient];
+    return `<button class="row" role="listitem" aria-current="${r.id===sel}" data-id="${r.id}"><span class="bar ${u}"></span>
+      <span style="min-width:0"><div class="who">${esc(p.name)} <small>${p.age}</small></div><div class="subj">${LBL.category[r.jev.category.choice]} · ${esc(r.text)}</div></span>
+      <span class="tm">${r._t}</span><span class="tags">${tagsFor(r)}</span></button>`; }).join("") : `<div class="empty">No messages.</div>`;
+  document.querySelectorAll(".row").forEach(b => b.onclick = () => { sel = b.dataset.id; renderList(); });
+  renderPane();
+}
+
+function pbs(r, k, n) {
+  const q = r.jev[k]; let h = `<div><div class="lbl">${k}</div>` + Object.entries(q.p).sort((a,b)=>b[1]-a[1]).slice(0,n).map(([o,v]) =>
+    `<div class="pb ${o===q.choice?"win":""}"><span class="n">${LBL[k][o]}</span><span class="t"><span class="f" style="width:${v*100}%"></span></span><span class="v">${v.toFixed(2)}</span></div>`).join("");
+  if (showSeed) h += `<div class="ref">Ref: <span class="${q.choice===r.seed[k]?"ok":"bad"}">${LBL[k][r.seed[k]]}</span> · Opus: ${LBL[k][r.opus[k].value]} · Haiku: ${LBL[k][r.haiku[k].value]}</div>`;
+  return h + `</div>`;
+}
+
+function renderPane() {
+  const r = M.find(x => x.id === sel);
+  if (!r) { $("#pane").innerHTML = `<div class="empty" style="margin-top:40px">Select a message.</div>`; return; }
+  const p = PAT[r.patient], j = r.jev, route = routeOf(r), u = j.urgency.choice;
+  const alg = p.allergies.join(", ");
+  let h = `<div class="banner"><span class="nm">${esc(p.name)}</span><span class="kv"><b>${p.age}</b> · ${p.sex}</span><span class="kv">Wt <b>${p.weight_kg} kg</b></span>
+    <span class="kv ${alg==="NKDA"?"":"alg"}">Allergies <b>${esc(alg)}</b></span><span class="kv">Language <b>${isForeign(r)?LBL.lang[r.jev.language.choice]+" · interpreter":"English"}</b></span><span class="kv">PCP <b>A. Patel, MD</b></span>${p.problems.length?`<span class="kv">Problems <b>${esc(p.problems.join("; "))}</b></span>`:""}</div>`;
+  h += `<div class="sec"><div class="meta"><span><b>From:</b> ${esc(r.sender)}</span><span><b>Received:</b> Today ${r._t}</span><span class="mono">${r.id}</span></div><p class="msgtxt">${esc(r.text)}</p>${r.text_en?`<div class="trans"><div class="lbl">English translation · AI</div><p>${esc(r.text_en)}</p></div>`:""}</div>`;
+
+  const flags = Object.entries(j.flags).filter(([k,v]) => k !== "needs_reply" && k !== "safety" && k !== "non_english" && v >= 0.5).map(([k,v]) => `<span class="pill ${k==="confidential"?"warn":""}">${LBL.flag[k]}</span>`).join("");
+  // confidence is shown apart from the label: 5-segment meter + percent, amber when below 60%, runner-up named when it's close
+  const conf = (q, k) => { if (!showWhy) return ""; const e = Object.entries(q.p).sort((a,b)=>b[1]-a[1]), c = e[0][1], lowc = c < 0.6;
+    const seg = Math.max(1, Math.round(c * 5)), meter = [0,1,2,3,4].map(i => `<i class="${i<seg?"on":""}"></i>`).join("");
+    return `<span class="tip" role="tooltip"><span class="th">AI confidence</span><span class="conf ${lowc?"lowc":""}"><span class="cm">${meter}</span>${Math.round(c*100)}% sure</span>` +
+      (e[1] && c - e[1][1] < 0.2 ? `<span class="alt">Close call: ${LBL[k][e[1][0]]} ${Math.round(e[1][1]*100)}%</span>` : "") + `</span>`; };
+  const hv = (pill, tip) => tip ? `<span class="hv" tabindex="0">${pill}${tip}</span>` : pill;
+  const routeTxt = {phone:"Phone triage RN", fyi:"FYI to PCP", triage:"Needs Triage", translation:`Translation → ${LBL.owner[j.owner.choice]}`}[route] || LBL.owner[route];
+  h += `<div class="sec"><div class="sec-h"><span>AI triage</span></div><div class="triage">
+    <div class="tf"><span class="cap">Acuity</span><span class="val">${hv(`<span class="pill ${u}">${LBL.urgency[u]}</span>`, conf(j.urgency,"urgency"))}</span></div>
+    <div class="tf"><span class="cap">Category</span><span class="val">${hv(`<span class="pill">${LBL.category[j.category.choice]}</span>`, conf(j.category,"category"))}</span></div>
+    <div class="tf"><span class="cap">Route to</span><span class="val">${hv(`<span class="pill">${routeTxt}</span>`, route==="phone"||route==="fyi"?"":conf(j.owner,"owner"))}</span></div>
+    ${isForeign(r)?`<div class="tf"><span class="cap">Language</span><span class="val">${hv(`<span class="pill warn">${LBL.lang[j.language.choice]}</span>`, conf(j.language,"lang"))}</span></div>`:""}
+    ${flags?`<div class="tf"><span class="cap">Flags</span><span class="flagrow">${flags}</span></div>`:""}</div>`;
+  if (showWhy) h += `<details class="why"><summary>Details</summary><div class="whygrid">${pbs(r,"urgency",3)}${pbs(r,"category",3)}${pbs(r,"owner",3)}
+      <div><div class="lbl">flags</div>${Object.entries(j.flags).map(([k,v]) => `<div class="pb ${v>=0.5?"win":""}"><span class="n">${LBL.flag[k]}</span><span class="t"><span class="f" style="width:${v*100}%"></span></span><span class="v">${v.toFixed(2)}</span></div>`).join("")}
+      ${showSeed?`<div class="ref">Ref: ${Object.keys(j.flags).filter(k=>r.seed[k]).map(k=>LBL.flag[k]).join(", ")||"none"}</div>`:""}</div></div>
+      <div class="lbl" style="margin-top:12px">context snippets</div>
+      <div class="whygrid" style="margin-top:0">${Object.entries(j.snippets).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `<div class="pb ${v>=snipT?"win":""}"><span class="n">${LBL.snip[k]}${showSeed&&r.seed.snippets.includes(k)?" ◆":""}</span><span class="t"><span class="f" style="width:${v*100}%"></span></span><span class="v">${v.toFixed(2)}</span></div>`).join("")}</div>
+      <div class="ref">Jev ${j.latency_s.toFixed(2)} s · ${j.usage.input.toLocaleString()} tokens · 26 questions${showSeed?" · ◆ reference":""}</div></details>`;
+  h += `</div>`;
+
+  if (route === "phone") {
+    h += `<div class="alertbox"><b>Call family now.</b><span>No AI draft.</span><span class="sp"></span><button class="btn red" data-do="call">Call</button><button class="btn" data-do="done">Done</button></div>`;
+  } else if (route === "fyi") {
+    h += `<div class="alertbox neutral"><b>No reply needed.</b><span class="sp"></span><button class="btn pri" data-do="done">Mark Done</button></div>`;
+  } else {
+    if (route === "triage") h += `<div class="alertbox amber"><b>Route unclear.</b><span class="sp"></span><select class="btn" id="rr" aria-label="Pool">${Object.entries(LBL.owner).map(([k,n])=>`<option value="${k}" ${k===j.owner.choice?"selected":""}>${n}</option>`).join("")}</select><button class="btn" data-do="route">Route</button></div>`;
+    if (j.flags.confidential >= 0.5 && r.sender.startsWith("Patient")) h += `<div class="alertbox amber"><b>Confidential.</b><span>Reply to patient's account only.</span></div>`;
+    const d = r.draft_alt && snipT <= r.draft_alt.threshold + 1e-9 ? r.draft_alt : r.draft;
+    if (d) h += `<div class="reply"><div class="sec-h"><span>Reply</span><span style="text-transform:none;letter-spacing:0;font-weight:400">AI draft · review before sending</span></div>
+        <div class="ctx">Context: ${d.snippets_loaded.map(s => `<span class="tag ai">${LBL.snip[s]}</span>`).join("") || "none"}</div>
+        <textarea class="draft" id="draft" aria-label="Reply">${esc(d.text)}</textarea>${d.text_en?`<details class="why"><summary>English back-translation · AI</summary><div class="trans"><p>${esc(d.text_en)}</p></div></details>`:""}
+        <div class="btns"><button class="btn pri" data-do="send">Send</button><button class="btn" data-do="discard">Discard draft</button><select class="btn" aria-label="Reroute"><option>Reroute…</option>${Object.values(LBL.owner).map(n=>`<option>${n}</option>`).join("")}</select><span class="sp"></span>
+        <span class="aim mono">${d.usage.input.toLocaleString()} prompt tokens</span></div></div>`;
+  }
+  $("#pane").innerHTML = h;
+  $("#pane").querySelectorAll("[data-do]").forEach(b => b.onclick = () => act(b.dataset.do, r));
+}
+
+function toast(t) { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => el.hidden = true, 1800); }
+function act(k, r) {
+  if (k === "call") return toast("Demo: no call placed");
+  if (k === "discard") { const t = $("#draft"); if (t) t.value = ""; return; }
+  if (k === "route") toast(`Routed to ${LBL.owner[$("#rr").value]}`);
+  if (k === "send") toast("Demo: nothing sent");
+  done.add(r.id); renderFolders(); renderList();
+}
+
+/* ---------- scoring (mirrors score.py) ---------- */
+function score(arm) {
+  const s = {urgency:0,category:0,owner:0}; let tp=0,fp=0,fn=0,fo=0,fnn=0,sm=0,br=0,bn=0,tin=0,tout=0,lat=0;
+  M.forEach(r => {
+    ["urgency","category","owner"].forEach(k => { const [v,c] = armLab(r,arm,k), ok = v === r.seed[k]; s[k] += ok; br += (c - ok)**2; bn++; });
+    const sn = new Set(arm==="jev" ? Object.entries(r.jev.snippets).filter(([,v])=>v>=0.5).map(([k])=>k) : r[arm].snippets), g = new Set(r.seed.snippets);
+    sn.forEach(x => g.has(x) ? tp++ : fp++); g.forEach(x => sn.has(x) || fn++);
+    const fl = arm==="jev" ? Object.fromEntries(Object.entries(r.jev.flags).map(([k,v])=>[k,v>=0.5])) : r[arm].flags;
+    Object.entries(fl).forEach(([k,v]) => { fo += v === r.seed[k]; fnn++; }); if (r.seed.safety && !fl.safety) sm++;
+    tin += r[arm].usage.input; tout += r[arm].usage.output; lat += r[arm].latency_s;
+  });
+  ["urgency","category","owner"].forEach(k => s[k] /= N);
+  return {...s, sp: tp/(tp+fp), sr: tp/(tp+fn), flags: fo/fnn, safety_missed: sm, brier: br/bn, cost: (tin*PRICE[arm][0] + tout*PRICE[arm][1])/1e6/N, lat: lat/N, tin: tin/N};
+}
+const S = Object.fromEntries(ARMS.map(([a]) => [a, score(a)]));
+const DR = M.filter(r => r.draft), avg = f => DR.reduce((a,r)=>a+f(r),0)/DR.length;
+
+/* ---------- analysis views (behind the gear) ---------- */
+const AV = {
+bench() {
+  const rows = [["Urgency","urgency",pct,1],["Category","category",pct,1],["Owner","owner",pct,1],["Snippet precision","sp",pct,1],["Snippet recall","sr",pct,1],["Flags (7)","flags",pct,1],["Safety missed (of 3)","safety_missed",v=>v,-1],["Brier (3 labels)","brier",v=>v.toFixed(3),-1],["Latency","lat",v=>v.toFixed(1)+" s",-1],["Input tokens","tin",v=>Math.round(v).toLocaleString(),0],["Cost / message","cost",fmt$,-1]];
+  const tbl = `<tr><th>${N} messages</th>${ARMS.map(([a,n,c])=>`<th><span class="armdot" style="background:${c}"></span>${n}</th>`).join("")}</tr>` +
+    rows.map(([n,k,f,dir]) => { const vals = ARMS.map(([a]) => S[a][k]), best = dir ? (dir>0?Math.max(...vals):Math.min(...vals)) : null;
+      return `<tr><td>${n}</td>${vals.map(v=>`<td class="num ${dir&&v===best&&new Set(vals).size>1?"best":""}">${f(v)}</td>`).join("")}</tr>`; }).join("");
+  const W=520,H=240,L=44,R=12,T=12,B=34, x=v=>L+v*(W-L-R), y=v=>T+(1-v)*(H-T-B);
+  let cov = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Auto-route coverage vs accuracy">`;
+  [0,.25,.5,.75,1].forEach(v => cov += `<line class="grid" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${pct(v)}</text><text x="${x(v)}" y="${H-B+15}" text-anchor="middle">${pct(v)}</text>`);
+  cov += `<text x="${(L+W-R)/2}" y="${H-3}" text-anchor="middle">auto-routed</text><text transform="translate(11 ${(T+H-B)/2}) rotate(-90)" text-anchor="middle">accuracy</text>`;
+  ARMS.forEach(([a,n,c]) => { const pts = M.map(r => { const [v,cf] = armLab(r,a,"owner"); return [cf, v===r.seed.owner]; }).sort((p,q)=>q[0]-p[0]);
+    let ok=0; const path=[]; pts.forEach((p,i) => { ok += p[1]; if (i===pts.length-1 || pts[i+1][0] !== p[0]) path.push([(i+1)/N, ok/(i+1)]); });
+    cov += `<polyline fill="none" stroke="${c}" stroke-width="2" points="${path.map(([a,b])=>x(a)+","+y(b)).join(" ")}"/>` + path.map(([a,b])=>`<circle cx="${x(a)}" cy="${y(b)}" r="3" fill="${c}"/>`).join(""); });
+  cov += `</svg><div class="legend">${ARMS.map(([a,n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join("")}</div>`;
+  const ts=[]; for (let t=0.1;t<=0.81;t+=0.05) ts.push(+t.toFixed(2));
+  const pr = ts.map(t => { let tp=0,fp=0,fn=0,ld=0; M.forEach(r => { const g = new Set(r.seed.snippets); Object.entries(r.jev.snippets).forEach(([k,v]) => { if (v>=t) { ld++; g.has(k)?tp++:fp++; } else if (g.has(k)) fn++; }); }); return {t, p:tp/(tp+fp), r:tp/(tp+fn), ld:ld/N}; });
+  const x2 = v => L+(v-0.1)/0.7*(W-L-R);
+  let sc = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Snippet precision and recall by threshold">`;
+  [0,.25,.5,.75,1].forEach(v => sc += `<line class="grid" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${pct(v)}</text>`);
+  [0.1,0.3,0.5,0.7].forEach(v => sc += `<text x="${x2(v)}" y="${H-B+15}" text-anchor="middle">${v.toFixed(1)}</text>`);
+  sc += `<text x="${(L+W-R)/2}" y="${H-3}" text-anchor="middle">threshold</text>`;
+  [["p","var(--jev)"],["r","var(--opus)"]].forEach(([k,c]) => sc += `<polyline fill="none" stroke="${c}" stroke-width="2" points="${pr.map(d=>x2(d.t)+","+y(d[k])).join(" ")}"/>`);
+  [0.3,0.5].forEach(t => { const d = pr.find(q=>Math.abs(q.t-t)<1e-6); sc += `<line x1="${x2(t)}" x2="${x2(t)}" y1="${T}" y2="${H-B}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${x2(t)+4}" y="${T+10}">${d.ld.toFixed(1)}/msg</text>`; });
+  sc += `</svg><div class="legend"><span><i style="background:var(--jev)"></i>precision</span><span><i style="background:var(--opus)"></i>recall</span><span>Opus 5: P ${pct(S.opus.sp)} / R ${pct(S.opus.sr)}</span></div>`;
+  const share = DR.length/N, dSel = avg(r=>(r.draft.usage.input*5+r.draft.usage.output*25)/1e6), dAll = avg(r=>(r.draft.all_snippets_input*5+r.draft.usage.output*25)/1e6), K=1e5;
+  const cost = [["Opus 5 triage + draft with all snippets",S.opus.cost*K,dAll*share*K],["Opus 5 triage + Jev snippets",S.opus.cost*K,dSel*share*K],["Haiku 4.5 triage + Jev snippets",S.haiku.cost*K,dSel*share*K],["Jev triage + Jev snippets",S.jev.cost*K,dSel*share*K]];
+  let all3=0; const dis=[]; M.forEach(r => ["urgency","category","owner"].forEach(k => { const ans = ARMS.map(([a])=>armLab(r,a,k)); if (ans.every(([v])=>v===r.seed[k])) return; if (ans.every(([v])=>v!==r.seed[k])) all3++; dis.push([r,k,ans]); }));
+  const m18 = M.find(r => r.draft_alt);
+  return `<div class="card"><h3>Classifier comparison <span class="sub">accuracy vs reference labels · list prices, no caching</span></h3><div class="tbl-wrap"><table>${tbl}</table></div></div>
+    <div class="grid2"><div class="card"><h3>Owner confidence as routing dial</h3>${cov}</div><div class="card"><h3>Jev snippet selection by threshold</h3>${sc}</div></div>
+    <div class="card"><h3>Per 100,000 messages <span class="sub">${DR.length}/${N} drafted · prompt ${Math.round(avg(r=>r.draft.usage.input))} vs ${Math.round(avg(r=>r.draft.all_snippets_input))} tokens</span></h3><div class="tbl-wrap"><table><tr><th>Pipeline</th><th>Triage</th><th>Drafting (Opus 5)</th><th>Total</th></tr>${cost.map(([n,a,b],i)=>`<tr><td>${n}</td><td class="num">${fmt$(a)}</td><td class="num">${fmt$(b)}</td><td class="num ${i===3?"best":""}">${fmt$(a+b)}</td></tr>`).join("")}</table></div>
+      <p class="note">With prompt caching, Opus triage input drops roughly tenfold. Its output alone (about $0.004 a message) is still about 25× Jev's whole request.</p></div>
+    <div class="card"><h3>Missed snippet → wrong draft <span class="sub">${m18.id} · insurance snippet at ${m18.jev.snippets.insurance_billing.toFixed(2)}</span></h3>
+      <div class="cmp"><div><b>Threshold 0.50</b> · ${m18.draft.snippets_loaded.map(s=>LBL.snip[s]).join(", ")}<pre>${esc(m18.draft.text)}</pre></div><div><b>Threshold 0.30</b> · ${m18.draft_alt.snippets_loaded.map(s=>LBL.snip[s]).join(", ")}<pre>${esc(m18.draft_alt.text)}</pre></div></div></div>
+    <div class="card"><h3>Disagreements with reference <span class="sub">${dis.length} total · ${all3} where all three classifiers agreed against it (mostly nursing vs PCP policy)</span></h3>
+      <div class="tbl-wrap"><table class="dis"><tr><th>Msg</th><th>Label</th><th>Reference</th>${ARMS.map(([a,n,c])=>`<th><span class="armdot" style="background:${c}"></span>${n}</th>`).join("")}</tr>${dis.map(([r,k,ans])=>`<tr><td class="mono">${r.id}</td><td>${k}</td><td>${LBL[k][r.seed[k]]}</td>${ans.map(([v,c])=>`<td class="${v===r.seed[k]?"ok":""}">${LBL[k][v]} <span class="mono" style="color:var(--ink-3)">${c.toFixed(2)}</span></td>`).join("")}</tr>`).join("")}</table></div></div>`;
+},
+how() {
+  return `<div class="flow">
+      <div class="step"><div class="w">Portal</div><b>Message</b>Text + one-line chart header</div>
+      <div class="step jev"><div class="w">Jev · 1 request</div><b>26 questions</b>3 Choices · 16 snippet Nouls · 7 flag Nouls<br>~${Math.round(S.jev.tin).toLocaleString()} tokens · ${S.jev.lat.toFixed(1)} s · ${fmt$(S.jev.cost)}</div>
+      <div class="step"><div class="w">Code</div><b>Policy</b>Safety → Call Now<br>No reply → FYI<br>Low owner prob → Needs Triage</div>
+      <div class="step"><div class="w">Code</div><b>Prompt assembly</b>Load snippets ≥ threshold from the chart</div>
+      <div class="step llm"><div class="w">LLM · Opus 5</div><b>Draft</b>${Math.round(avg(r=>r.draft.usage.input))} tokens vs ${Math.round(avg(r=>r.draft.all_snippets_input))} with all snippets</div>
+      <div class="step"><div class="w">Pool</div><b>Review &amp; send</b>Probabilities kept for audit</div></div>
+    <div class="qgrid">
+      <div class="card"><h3>Choices</h3><ul><li>Urgency: ${Object.values(LBL.urgency).join(" / ")}</li><li>Category: ${Object.values(LBL.category).join(", ")}</li><li>Owner: ${Object.values(LBL.owner).join(", ")}</li></ul></div>
+      <div class="card"><h3>Snippet Nouls</h3><ul>${Object.entries(D.snippets).map(([k,v])=>`<li title="${esc(v)}">${LBL.snip[k]}</li>`).join("")}</ul></div>
+      <div class="card"><h3>Flag Nouls</h3><ul>${Object.keys(D.flags).map(k=>`<li title="${esc(D.flags[k])}">${LBL.flag[k]}</li>`).join("")}</ul></div></div>
+    <div class="card"><h3>Example question</h3><pre class="code">"snip_refill_protocol": {
+  "type": "noul",
+  "instructions": "To draft an accurate reply to this \`message\`, the drafter needs this chart/practice context:
+                   Nursing refill protocol: which meds RNs may renew, controlled-substance rules, visit-required rules.",
+  "criteria": { "true":  "The reply would be wrong, incomplete, or unsafe without this context.",
+                "false": "The reply can be written well without this context; it is irrelevant to what was asked." }
+}</pre></div>`;
+},
+more() {
+  const on = k => M.filter(r => r.jev.flags[k] >= 0.5).map(r => r.id).join(", ") || "none";
+  const I = [["Safety interrupt","Skip the queue, call the family, no AI draft.",`flagged: ${on("safety")}`,1],
+    ["No-reply filing","Thank-yous go to FYI. No task, no LLM call.",`filed: ${M.filter(r=>r.jev.flags.needs_reply<0.5).map(r=>r.id).join(", ")}`,1],
+    ["Multi-issue split","One message, several pools. Split into tasks.",`flagged: ${on("multi_issue")}`,1],
+    ["Teen confidentiality","Force the confidentiality snippet; reply to the teen's account only.",`flagged: ${on("confidential")}`,1],
+    ["Service recovery","Frustrated or repeat senders go to the practice manager.",`flagged: ${on("frustrated")}`,1],
+    ["Language access","Route to bilingual staff; draft in the sender's language.",`flagged: ${on("non_english")}`,1],
+    ["E-visit capture","Surface billable portal care before the reply.",`flagged: ${on("evisit")}`,1],
+    ["Repeat-message merge","Detect restated open requests and merge threads.","needs thread history",0],
+    ["SLA clocks","Start response timers from P(high).","policy layer",0],
+    ["Drift & workload","Trend probabilities by week and pool.","from logs",0],
+    ["Draft policy per pool","Turn drafting on or off by pool or confidence.","config",0]];
+  return `<div class="ideas">${I.map(([h,p,e,i])=>`<div class="card idea"><div class="k ${i?"":"next"}">${i?"in this run":"next"}</div><b>${h}</b><p>${p}</p><div class="ev">${e}</div></div>`).join("")}</div>`;
+}};
+const AVT = {bench:"Benchmark: Jev vs Claude", how:"How it works", more:"Other triage signals"};
+function openAV(k) {
+  closeDrawer(); $("#ibView").hidden = true; $("#avView").hidden = false;
+  $("#avIn").innerHTML = `<div class="avbar"><button class="btn" id="backIB">← In Basket</button><h1>${AVT[k]}</h1></div>` + AV[k]();
+  $("#backIB").onclick = () => { $("#avView").hidden = true; $("#ibView").hidden = false; };
+}
+
+/* ---------- drawer & wiring ---------- */
+function openDrawer() { $("#drawerRoot").hidden = false; $("#gear").setAttribute("aria-expanded", "true"); $("#routeT").focus(); }
+function closeDrawer() { $("#drawerRoot").hidden = true; $("#gear").setAttribute("aria-expanded", "false"); }
+$("#gear").onclick = () => $("#drawerRoot").hidden ? openDrawer() : closeDrawer();
+$("#scrim").onclick = closeDrawer; $("#closeDrawer").onclick = closeDrawer;
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#drawerRoot").hidden) closeDrawer(); });
+document.querySelectorAll("[data-av]").forEach(b => b.onclick = () => openAV(b.dataset.av));
+const bind = (id, fn) => $(id).oninput = e => { fn(+e.target.value); $(id + "v").textContent = (+e.target.value).toFixed(2); renderFolders(); renderList(); };
+bind("#routeT", v => routeT = v); bind("#safeT", v => safeT = v); bind("#snipT", v => snipT = v);
+$("#showWhy").onchange = e => { showWhy = e.target.checked; renderPane(); };
+$("#showSeed").onchange = e => { showSeed = e.target.checked; renderPane(); };
+$("#jevModel").textContent = D.jev_model; $("#runAt").textContent = D.run_at;
+renderFolders(); renderList();
+</script>
