@@ -372,8 +372,7 @@ function renderPane() {
     if (d) h += `<div class="reply"><div class="sec-h"><span>Reply</span><span style="text-transform:none;letter-spacing:0;font-weight:400">AI draft · review before sending</span></div>
         <div class="ctx">Context: ${d.snippets_loaded.map(s => `<span class="tag ai">${LBL.snip[s]}</span>`).join("") || "none"}</div>
         <textarea class="draft" id="draft" aria-label="Reply">${esc(d.text)}</textarea>${d.text_en?`<details class="why"><summary>English back-translation · AI</summary><div class="trans"><p>${esc(d.text_en)}</p></div></details>`:""}
-        <div class="btns"><button class="btn pri" data-do="send">Send</button><button class="btn" data-do="discard">Discard draft</button><select class="btn" aria-label="Reroute"><option>Reroute…</option>${Object.values(LBL.owner).map(n=>`<option>${n}</option>`).join("")}</select><span class="sp"></span>
-        <span class="aim mono">${d.usage.input.toLocaleString()} prompt tokens</span></div></div>`;
+        <div class="btns"><button class="btn pri" data-do="send">Send</button><button class="btn" data-do="discard">Discard draft</button><select class="btn" aria-label="Reroute"><option>Reroute…</option>${Object.values(LBL.owner).map(n=>`<option>${n}</option>`).join("")}</select></div></div>`;
   }
   $("#pane").innerHTML = h;
   $("#pane").querySelectorAll("[data-do]").forEach(b => b.onclick = () => act(b.dataset.do, r));
