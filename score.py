@@ -50,3 +50,10 @@ if __name__ == "__main__":
         print(r["id"], f"seed {sd['urgency']}/{sd['category']}/{sd['owner']}", " | ".join(line))
     dr = [r["draft"] for r in d["messages"] if r["draft"]]
     print(f"\ndrafts {len(dr)}: mean input selected {sum(x['usage']['input'] for x in dr)/len(dr):.0f} vs all-snippets {sum(x['all_snippets_input'] for x in dr)/len(dr):.0f}")
+    from clock import clock_errors
+    print("\nresponse clocks vs reference urgency (too loose = a later clock than the reference warrants)")
+    rows = [("argmax label", dict(pick=lambda r: r["jev"]["urgency"]["choice"]))] + [(f"P(at least) >= {t:.2f}", dict(t=t)) for t in (0.5, 0.4, 0.3, 0.2)]
+    for name, kw in rows:
+        lo, ti, now = clock_errors(d["messages"], **kw)
+        print(f"  {name:20} too loose {len(lo)} {' '.join(lo) or '-':14} too tight {len(ti)} {' '.join(ti) or '-'}")
+    print(f"  no clock (Call Now, or no reply needed): {' '.join(now)}")
