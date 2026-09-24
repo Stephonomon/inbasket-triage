@@ -82,6 +82,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .row .who small{font-weight:400;color:var(--ink-3)}
 .row .subj{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px}
 .row .tm{font:400 11.5px var(--mono);color:var(--ink-3);text-align:right}
+.row .tm .due{display:block;font-size:10.5px}
+.due.high{color:var(--high)} .due.medium{color:var(--med)}
 .row .tags{grid-column:2/4;display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
 .tag{font:600 10.5px/1 var(--body);padding:3px 5px;border-radius:3px;background:var(--sunk);color:var(--ink-2);white-space:nowrap;border:1px solid var(--line-soft)}
 .tag.red{background:var(--high-soft);color:var(--high);border-color:transparent}
@@ -246,6 +248,7 @@ pre.code{font:11.5px/1.5 var(--mono);background:var(--sunk);border-radius:6px;pa
       <div class="lbl">Routing</div>
       <div class="fld"><label for="routeT">Auto-route at owner probability ≥ <output id="routeTv">0.60</output></label><input type="range" id="routeT" min="0.3" max="0.95" step="0.05" value="0.6"><div class="h">Below this: Needs Triage.</div></div>
       <div class="fld"><label for="safeT">Call Now at safety probability ≥ <output id="safeTv">0.50</output></label><input type="range" id="safeT" min="0.1" max="0.9" step="0.05" value="0.5"></div>
+      <div class="fld"><label for="clockT">Response clock at P(at least this urgent) ≥ <output id="clockTv">0.50</output></label><input type="range" id="clockT" min="0.1" max="0.9" step="0.05" value="0.5"><div class="h">0.50 is the median. Lower starts tighter clocks sooner. Never looser than the Acuity label.</div></div>
     </div>
     <div class="dg">
       <div class="lbl">Draft context</div>
@@ -254,6 +257,7 @@ pre.code{font:11.5px/1.5 var(--mono);background:var(--sunk);border-radius:6px;pa
     <div class="dg">
       <div class="lbl">Display</div>
       <label class="chk" for="showWhy"><input type="checkbox" id="showWhy" checked> Show AI probabilities to clinicians</label>
+      <label class="chk" for="byDue"><input type="checkbox" id="byDue"> Sort messages by response clock</label>
       <label class="chk" for="showSeed"><input type="checkbox" id="showSeed"> Show reference labels &amp; Claude comparison</label>
     </div>
     <div class="dg">
@@ -289,7 +293,26 @@ const URG = {high:0, medium:1, low:2};
 // fabricated receive times across this morning
 M.forEach((r,i) => { const m = 6*60 + 4 + ((i * 37) % 290); r._m = m; r._t = `${Math.floor(m/60)%12||12}:${String(m%60).padStart(2,"0")} ${m<720?"AM":"PM"}`; });
 
-let routeT = 0.6, safeT = 0.5, snipT = 0.5, showWhy = true, showSeed = false, folder = "all", sel = null; const done = new Set();
+let routeT = 0.6, safeT = 0.5, snipT = 0.5, clockT = 0.5, byDue = false, showWhy = true, showSeed = false, folder = "all", sel = null; const done = new Set();
+
+// Response clocks, mirroring clock.py: the more urgent of Jev's label and the most urgent level the message is at least
+// clockT likely to reach (at 0.5, the median). It can tighten the clock the Acuity label implies, never loosen it.
+const LEVELS = ["high","medium","low"], URANK = {low:0, medium:1, high:2}, CLK_W = {high:["hours",4], medium:["bdays",1], low:["bdays",3]};
+const atLeast = p => { let s = 0; return Object.fromEntries(LEVELS.map(k => [k, s += p[k] || 0])); };
+const clockLvl = (u, t = clockT) => { const c = atLeast(u.p), q = LEVELS.find(k => c[k] >= t - 1e-9) || "low"; return URANK[q] >= URANK[u.choice] ? q : u.choice; };
+const DAY0 = new Date(D.run_at.slice(0, 10) + "T00:00");    // "Today" in the viewer is the day of the run
+function dueOf(r) {                                         // {now:true} for Call Now, null when no reply is needed
+  if (r.jev.flags.safety >= safeT) return {now:true};
+  if (r.jev.flags.needs_reply < 0.5) return null;
+  const l = clockLvl(r.jev.urgency), [unit, n] = CLK_W[l], d = new Date(DAY0.getTime() + r._m * 6e4);
+  if (unit === "hours") d.setHours(d.getHours() + n);
+  else for (let k = n; k > 0;) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) k--; }    // skip Saturday and Sunday
+  return {l, d};
+}
+const hm = d => `${d.getHours()%12||12}:${String(d.getMinutes()).padStart(2,"0")} ${d.getHours()<12?"AM":"PM"}`;
+const dayOf = d => { const n = Math.round((new Date(d).setHours(0,0,0,0) - DAY0) / 864e5); return n === 0 ? "Today" : n === 1 ? "Tomorrow" : d.toLocaleDateString("en-US", {weekday:"short"}); };
+const dueTxt = c => !c ? "" : c.now ? "Call now" : `${dayOf(c.d)} ${hm(c.d)}`;
+const byClock = (a, b) => { const k = r => { const c = dueOf(r); return c ? (c.now ? -Infinity : c.d.getTime()) : Infinity; }; return k(a) - k(b) || a._m - b._m; };
 
 const isForeign = r => r.jev.language && r.jev.language.choice !== "english";
 function routeOf(r) {
@@ -319,13 +342,13 @@ function tagsFor(r) {
 }
 function renderList() {
   const rows = M.filter(r => !done.has(r.id) && (folder === "all" || routeOf(r) === folder))
-    .sort((a,b) => URG[a.jev.urgency.choice] - URG[b.jev.urgency.choice] || a._m - b._m);
+    .sort(byDue ? byClock : (a,b) => URG[a.jev.urgency.choice] - URG[b.jev.urgency.choice] || a._m - b._m);
   if (!rows.find(r => r.id === sel)) sel = rows[0]?.id ?? null;
   $("#listhead").innerHTML = `${FNAME[folder]} <span>${rows.length} message${rows.length===1?"":"s"}</span>`;
   $("#list").innerHTML = rows.length ? rows.map(r => { const u = r.jev.urgency.choice, p = PAT[r.patient];
     return `<button class="row" role="listitem" aria-current="${r.id===sel}" data-id="${r.id}"><span class="bar ${u}"></span>
       <span style="min-width:0"><div class="who">${esc(p.name)} <small>${p.age}</small></div><div class="subj">${LBL.category[r.jev.category.choice]} · ${esc(r.text)}</div></span>
-      <span class="tm">${r._t}</span><span class="tags">${tagsFor(r)}</span></button>`; }).join("") : `<div class="empty">No messages.</div>`;
+      <span class="tm">${r._t}${(c => c ? `<span class="due ${c.now ? "high" : c.l}">${c.now ? "call now" : "due " + (dayOf(c.d) === "Today" ? hm(c.d) : dayOf(c.d))}</span>` : "")(dueOf(r))}</span><span class="tags">${tagsFor(r)}</span></button>`; }).join("") : `<div class="empty">No messages.</div>`;
   document.querySelectorAll(".row").forEach(b => b.onclick = () => { sel = b.dataset.id; renderList(); });
   renderPane();
 }
@@ -353,9 +376,14 @@ function renderPane() {
     return `<span class="tip" role="tooltip"><span class="th">AI confidence</span><span class="conf ${lowc?"lowc":""}"><span class="cm">${meter}</span>${Math.round(c*100)}% sure</span>` +
       (e[1] && c - e[1][1] < 0.2 ? `<span class="alt">Close call: ${LBL[k][e[1][0]]} ${Math.round(e[1][1]*100)}%</span>` : "") + `</span>`; };
   const hv = (pill, tip) => tip ? `<span class="hv" tabindex="0">${pill}${tip}</span>` : pill;
+  const clockTip = (q, l) => { if (!showWhy) return ""; const c = atLeast(q.p), [unit, n] = CLK_W[l];
+    return `<span class="tip" role="tooltip"><span class="th">Response clock · ${LBL.urgency[l]}, ${n} ${unit === "hours" ? "hours" : n === 1 ? "business day" : "business days"}</span>` +
+      `<span class="alt">At least High ${Math.round(c.high*100)}% · at least Medium ${Math.round(c.medium*100)}%</span>` +
+      (l !== q.choice ? `<span class="alt">Tighter than the Acuity label: ${LBL.urgency[l]} or worse is ${Math.round(c[l]*100)}% likely</span>` : "") + `</span>`; };
   const routeTxt = {phone:"Phone triage RN", fyi:"FYI to PCP", triage:"Needs Triage", translation:`Translation → ${LBL.owner[j.owner.choice]}`}[route] || LBL.owner[route];
   h += `<div class="sec"><div class="sec-h"><span>AI triage</span></div><div class="triage">
     <div class="tf"><span class="cap">Acuity</span><span class="val">${hv(`<span class="pill ${u}">${LBL.urgency[u]}</span>`, conf(j.urgency,"urgency"))}</span></div>
+    ${(c => c ? `<div class="tf"><span class="cap">Respond by</span><span class="val">${hv(`<span class="pill ${c.now ? "high" : c.l}">${dueTxt(c)}</span>`, c.now ? "" : clockTip(j.urgency, c.l))}</span></div>` : "")(dueOf(r))}
     <div class="tf"><span class="cap">Category</span><span class="val">${hv(`<span class="pill">${LBL.category[j.category.choice]}</span>`, conf(j.category,"category"))}</span></div>
     <div class="tf"><span class="cap">Route to</span><span class="val">${hv(`<span class="pill">${routeTxt}</span>`, route==="phone"||route==="fyi"?"":conf(j.owner,"owner"))}</span></div>
     ${isForeign(r)?`<div class="tf"><span class="cap">Language</span><span class="val">${hv(`<span class="pill warn">${LBL.lang[j.language.choice]}</span>`, conf(j.language,"lang"))}</span></div>`:""}
@@ -436,12 +464,32 @@ bench() {
   [["p","var(--jev)"],["r","var(--opus)"]].forEach(([k,c]) => sc += `<polyline fill="none" stroke="${c}" stroke-width="2" points="${pr.map(d=>x2(d.t)+","+y(d[k])).join(" ")}"/>`);
   [0.3,0.5].forEach(t => { const d = pr.find(q=>Math.abs(q.t-t)<1e-6); sc += `<line x1="${x2(t)}" x2="${x2(t)}" y1="${T}" y2="${H-B}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${x2(t)+4}" y="${T+10}">${d.ld.toFixed(1)}/msg</text>`; });
   sc += `</svg><div class="legend"><span><i style="background:var(--jev)"></i>precision</span><span><i style="background:var(--opus)"></i>recall</span><span>Opus 5: P ${pct(S.opus.sp)} / R ${pct(S.opus.sr)}</span></div>`;
+  // Response clocks vs the reference urgency, as the clock threshold moves; dashed lines are the argmax label alone
+  const CL = M.filter(r => r.jev.flags.safety < safeT && r.jev.flags.needs_reply >= 0.5);
+  const errs = pick => { let lo=0, ti=0, loIds=[]; CL.forEach(r => { const g = URANK[pick(r)], w = URANK[r.seed.urgency]; if (g < w) { lo++; loIds.push(r.id); } else if (g > w) ti++; }); return {lo, ti, loIds}; };
+  const cts=[]; for (let t=0.1;t<=0.91;t+=0.05) cts.push(+t.toFixed(2));
+  const ce = cts.map(t => ({t, ...errs(r => clockLvl(r.jev.urgency, t))})), ca = errs(r => r.jev.urgency.choice);
+  const ymax = Math.max(4, ...ce.map(d=>d.ti), ca.ti) + 1, xc = v => L+(v-0.1)/0.8*(W-L-R), yc = v => T+(1-v/ymax)*(H-T-B);
+  let ck = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Response clocks too loose and too tight by threshold">`;
+  for (let v=0; v<=ymax; v+=Math.ceil(ymax/5)) ck += `<line class="grid" x1="${L}" x2="${W-R}" y1="${yc(v)}" y2="${yc(v)}"/><text x="${L-6}" y="${yc(v)+4}" text-anchor="end">${v}</text>`;
+  [0.1,0.3,0.5,0.7,0.9].forEach(v => ck += `<text x="${xc(v)}" y="${H-B+15}" text-anchor="middle">${v.toFixed(1)}</text>`);
+  ck += `<text x="${(L+W-R)/2}" y="${H-3}" text-anchor="middle">P(at least this urgent) threshold</text><text transform="translate(11 ${(T+H-B)/2}) rotate(-90)" text-anchor="middle">messages</text>`;
+  [["lo","var(--high)"],["ti","var(--med)"]].forEach(([k,c]) => ck += `<line x1="${L}" x2="${W-R}" y1="${yc(ca[k])}" y2="${yc(ca[k])}" stroke="${c}" stroke-dasharray="4 4" opacity=".7"/><polyline fill="none" stroke="${c}" stroke-width="2" points="${ce.map(d=>xc(d.t)+","+yc(d[k])).join(" ")}"/>`);
+  ck += `<line x1="${xc(clockT)}" x2="${xc(clockT)}" y1="${T}" y2="${H-B}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${xc(clockT)+4}" y="${T+10}">now ${clockT.toFixed(2)}</text>`;
+  const cNow = ce.find(d => Math.abs(d.t - clockT) < 1e-6) || errs(r => clockLvl(r.jev.urgency));
+  ck += `</svg><div class="legend"><span><i style="background:var(--high)"></i>too loose (later than the reference allows)</span><span><i style="background:var(--med)"></i>too tight</span><span>dashed: Acuity label alone, ${ca.lo} loose${ca.loIds.length?" ("+ca.loIds.join(", ")+")":""} / ${ca.ti} tight</span></div>
+    <p class="note">${CL.length} of ${N} messages get a clock (the rest go to Call Now or need no reply). At ${clockT.toFixed(2)}: ${cNow.lo} too loose, ${cNow.ti} too tight. Too loose is the costly error; the tight clocks are mostly the same messages the Acuity label already over-calls.</p>`;
   const share = DR.length/N, dSel = avg(r=>(r.draft.usage.input*5+r.draft.usage.output*25)/1e6), dAll = avg(r=>(r.draft.all_snippets_input*5+r.draft.usage.output*25)/1e6), K=1e5;
   const cost = [["Opus 5 triage + draft with all snippets",S.opus.cost*K,dAll*share*K],["Opus 5 triage + Jev snippets",S.opus.cost*K,dSel*share*K],["Haiku 4.5 triage + Jev snippets",S.haiku.cost*K,dSel*share*K],["Jev triage + Jev snippets",S.jev.cost*K,dSel*share*K]];
   let all3=0; const dis=[]; M.forEach(r => ["urgency","category","owner"].forEach(k => { const ans = ARMS.map(([a])=>armLab(r,a,k)); if (ans.every(([v])=>v===r.seed[k])) return; if (ans.every(([v])=>v!==r.seed[k])) all3++; dis.push([r,k,ans]); }));
   const m18 = M.find(r => r.draft_alt);
   return `<div class="card"><h3>Classifier comparison <span class="sub">accuracy vs reference labels · list prices, no caching</span></h3><div class="tbl-wrap"><table>${tbl}</table></div></div>
     <div class="grid2"><div class="card"><h3>Owner confidence as routing dial</h3>${cov}</div><div class="card"><h3>Jev snippet selection by threshold</h3>${sc}</div></div>
+    <div class="grid2"><div class="card"><h3>Response clocks by threshold <span class="sub">vs reference urgency</span></h3>${ck}</div>
+      <div class="card"><h3>Too loose vs too tight <span class="sub">${CL.length} clocked messages</span></h3><div class="tbl-wrap"><table><tr><th>Clock rule</th><th>Too loose</th><th>Too tight</th></tr>${
+        [["Acuity label alone", ca], ...[0.5,0.4,0.3,0.2].map(t => [`P(at least) ≥ ${t.toFixed(2)}`, ce.find(d => Math.abs(d.t-t) < 1e-6)])].map(([n,e]) =>
+        `<tr><td>${n}</td><td class="num ${e.lo?"":"best"}">${e.lo}${e.loIds.length?` <span class="mono">${e.loIds.join(" ")}</span>`:""}</td><td class="num">${e.ti}</td></tr>`).join("")}</table></div>
+        <p class="note">A clock is too loose when it gives more time than the reference urgency allows, and too tight when it gives less. The rule never gives a looser clock than the Acuity label.</p></div></div>
     <div class="card"><h3>Per 100,000 messages <span class="sub">${DR.length}/${N} drafted · prompt ${Math.round(avg(r=>r.draft.usage.input))} vs ${Math.round(avg(r=>r.draft.all_snippets_input))} tokens</span></h3><div class="tbl-wrap"><table><tr><th>Pipeline</th><th>Triage</th><th>Drafting (Opus 5)</th><th>Total</th></tr>${cost.map(([n,a,b],i)=>`<tr><td>${n}</td><td class="num">${fmt$(a)}</td><td class="num">${fmt$(b)}</td><td class="num ${i===3?"best":""}">${fmt$(a+b)}</td></tr>`).join("")}</table></div>
       <p class="note">With prompt caching, Opus triage input drops roughly tenfold. Its output alone (about $0.004 a message) is still about 25× Jev's whole request.</p></div>
     <div class="card"><h3>Missed snippet → wrong draft <span class="sub">${m18.id} · insurance snippet at ${m18.jev.snippets.insurance_billing.toFixed(2)}</span></h3>
@@ -453,7 +501,7 @@ how() {
   return `<div class="flow">
       <div class="step"><div class="w">Portal</div><b>Message</b>Text + one-line chart header</div>
       <div class="step jev"><div class="w">Jev · 1 request</div><b>26 questions</b>3 Choices · 16 snippet Nouls · 7 flag Nouls<br>~${Math.round(S.jev.tin).toLocaleString()} tokens · ${S.jev.lat.toFixed(1)} s · ${fmt$(S.jev.cost)}</div>
-      <div class="step"><div class="w">Code</div><b>Policy</b>Safety → Call Now<br>No reply → FYI<br>Low owner prob → Needs Triage</div>
+      <div class="step"><div class="w">Code</div><b>Policy</b>Safety → Call Now<br>No reply → FYI<br>Low owner prob → Needs Triage<br>Urgency probabilities → response clock</div>
       <div class="step"><div class="w">Code</div><b>Prompt assembly</b>Load snippets ≥ threshold from the chart</div>
       <div class="step llm"><div class="w">LLM · Opus 5</div><b>Draft</b>${Math.round(avg(r=>r.draft.usage.input))} tokens vs ${Math.round(avg(r=>r.draft.all_snippets_input))} with all snippets</div>
       <div class="step"><div class="w">Pool</div><b>Review &amp; send</b>Probabilities kept for audit</div></div>
@@ -479,7 +527,7 @@ more() {
     ["Language access","Route to bilingual staff; draft in the sender's language.",`flagged: ${on("non_english")}`,1],
     ["E-visit capture","Surface billable portal care before the reply.",`flagged: ${on("evisit")}`,1],
     ["Repeat-message merge","Detect restated open requests and merge threads.","needs thread history",0],
-    ["SLA clocks","Start response timers from P(high).","policy layer",0],
+    ["Response clocks","Start the clock from the urgency distribution: the median, never looser than the label.",`tightened: ${M.filter(r => (c => c && !c.now && c.l !== r.jev.urgency.choice)(dueOf(r))).map(r => r.id).join(", ") || "none"}`,1],
     ["Drift & workload","Trend probabilities by week and pool.","from logs",0],
     ["Draft policy per pool","Turn drafting on or off by pool or confidence.","config",0]];
   return `<div class="ideas">${I.map(([h,p,e,i])=>`<div class="card idea"><div class="k ${i?"":"next"}">${i?"in this run":"next"}</div><b>${h}</b><p>${p}</p><div class="ev">${e}</div></div>`).join("")}</div>`;
@@ -499,7 +547,8 @@ $("#scrim").onclick = closeDrawer; $("#closeDrawer").onclick = closeDrawer;
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#drawerRoot").hidden) closeDrawer(); });
 document.querySelectorAll("[data-av]").forEach(b => b.onclick = () => openAV(b.dataset.av));
 const bind = (id, fn) => $(id).oninput = e => { fn(+e.target.value); $(id + "v").textContent = (+e.target.value).toFixed(2); renderFolders(); renderList(); };
-bind("#routeT", v => routeT = v); bind("#safeT", v => safeT = v); bind("#snipT", v => snipT = v);
+bind("#routeT", v => routeT = v); bind("#safeT", v => safeT = v); bind("#snipT", v => snipT = v); bind("#clockT", v => clockT = v);
+$("#byDue").onchange = e => { byDue = e.target.checked; renderList(); };
 $("#showWhy").onchange = e => { showWhy = e.target.checked; renderPane(); };
 $("#showSeed").onchange = e => { showSeed = e.target.checked; renderPane(); };
 $("#jevModel").textContent = D.jev_model; $("#runAt").textContent = D.run_at;
