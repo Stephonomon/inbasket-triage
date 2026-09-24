@@ -64,8 +64,12 @@ option. The thresholds live in code, where a practice can set and test them.
 | Owner probability < 0.60 | **Needs Triage**: a person picks the pool | Yes, once routed |
 | Otherwise | The owner pool Jev chose | Yes |
 
+**Response clocks (code, not model):** every message that needs a reply gets a respond-by time, started from the
+urgency probabilities rather than the urgency label. See [Response clocks](#response-clocks) below.
+
 **Behind the gear** (the configure panel):
-- **Sliders:** the auto-route, Call Now and snippet-loading thresholds.
+- **Sliders:** the auto-route, Call Now, response-clock and snippet-loading thresholds.
+- **Sort by response clock:** order the list by respond-by time instead of acuity.
 - **Display toggles:** turn the confidence cards off for clinicians, or overlay the reference labels and the Claude comparison.
 - **Analysis views:** a benchmark, a pipeline diagram and other triage ideas.
 
@@ -112,6 +116,41 @@ What I take from it:
 
 Caveats: 29 synthetic messages and one person's reference labels. This is a demonstration, not a validation.
 
+## Response clocks
+
+The urgency definitions already carry time windows: high is within hours, today; medium is 1 business day; low is 2-3
+business days. The clock uses those windows, but it chooses the level from the whole urgency distribution, not only the top
+label.
+
+Urgency is ordered, and the top label ignores that. M22 is a parent's third message about a surgery-clearance letter.
+Jev scored it 0.39 low, 0.36 medium, 0.25 high. The label is Low, a 3-business-day clock, although medium-or-worse is
+0.61 likely. The clock takes the more urgent of two readings:
+
+1. the most urgent level the message is at least 0.50 likely to reach (the median of the three), and
+2. the Acuity label.
+
+The second reading is there because the median alone can loosen a clock: 0.40 high, 0.35 medium, 0.25 low has a median of
+medium next to an Acuity label of High. So the clock can be tighter than the label but never looser. A slider lowers the
+0.50 for a more cautious practice. Averaging the windows by probability is deliberately not offered: it would turn a 25%
+chance of an emergency into a middling deadline.
+
+| Clock rule, 25 clocked messages | Too loose | Too tight |
+|---|---:|---:|
+| Acuity label alone | 1 (M22) | 6 |
+| **P(at least this urgent) ≥ 0.50** | **0** | **6** |
+| ≥ 0.40 | 0 | 7 |
+| ≥ 0.30 | 0 | 8 |
+
+"Too loose" means the clock gives more time than the reference urgency allows. At 0.50 the clock removes the one too-loose
+clock and adds no tight ones; the six tight clocks are messages where the Acuity label itself disagrees with the
+reference. Call Now messages and messages that need no reply get no clock. Windows are 4 hours, 1 business day and
+3 business days, set in `clock.py`. Business days skip weekends; there is no holiday calendar.
+
+This is one message on 29, and 0.50 was chosen as the median, not tuned on this set. It shows the rule behaves as
+intended; it does not show the rule is better in practice. M22 is also urgent for operational reasons, a deadline and a
+repeat message, rather than clinical ones, which the urgency definitions mix together. A repeat-message signal is the
+natural next step for cases like it.
+
 ## Beyond urgency, category and owner
 
 The 7 flags were asked in the same request at no extra cost, and each one drives something in the UI:
@@ -124,8 +163,8 @@ The 7 flags were asked in the same request at no extra cost, and each one drives
 - **Language:** route to the Translation pool, draft in the sender's language, and show staff English translations.
 - **E-visit candidate:** surface billable portal care before the reply goes out.
 
-Ideas not built yet: merging repeat messages into one thread, response-time targets started from the urgency
-probability, and weekly drift and workload monitoring from the stored probabilities.
+Ideas not built yet: merging repeat messages into one thread, and weekly drift and workload monitoring from the stored
+probabilities.
 
 ## Run it yourself
 
@@ -136,7 +175,8 @@ export TYPESAFE_API_KEY=...           # or put it in ~/.typesafe_api_key
 python triage.py                      # Jev + Opus + Haiku triage and Opus drafts for every message -> results.json
 python alt_draft.py                   # re-draft M18 with the snippet threshold at 0.3
 python lang.py                        # Jev language question + English translations (also merges results_partial.json)
-python score.py                       # console summary against the reference labels
+python score.py                       # console summary against the reference labels, including response clocks
+python -m unittest                    # tests for clock.py (standard library only, no API keys)
 python build.py                       # results.json + template.html -> index.html
 ```
 
@@ -150,6 +190,7 @@ A full run of 29 messages takes about 90 seconds and costs about $1, almost all 
 | `lang.py` | Jev language Choice; Claude translations of non-English messages and drafts |
 | `alt_draft.py` | The M18 threshold comparison |
 | `score.py` | Scoring against the reference labels |
+| `clock.py` / `test_clock.py` | Response clocks from the urgency distribution, and their tests |
 | `template.html` / `build.py` | The viewer; `index.html` is the built page |
 
 ## Credits
